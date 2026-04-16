@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Award,
   Building2,
-  Users,
   MapPin,
   Phone,
   Clock,
@@ -23,7 +22,6 @@ import {
   departments,
   teamMembers,
   getInitials,
-  getPrimaryPhone,
   type TeamMember,
   type Department,
   type DepartmentId,
@@ -231,36 +229,33 @@ function TeamMemberCard({
   member: TeamMember;
   dept: Department;
 }) {
-  const [hovered, setHovered] = useState(false);
   const colors = getDeptColorClasses(dept.color);
-  const primaryPhone = getPrimaryPhone(member.tel);
+  const phoneNumbers = member.tel
+    ? member.tel.split(";").map((p) => p.trim())
+    : [];
 
   return (
-    <div
-      className="glass-panel p-4 group hover:border-cyan/20 transition-all text-center"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className="glass-panel p-5 group hover:border-cyan/20 transition-all flex items-start gap-4">
       {/* Avatar */}
       {member.photo ? (
         <div
-          className="w-16 h-16 mx-auto mb-3 overflow-hidden rounded-full border"
+          className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-full border"
           style={{ borderColor: `${colors.initialsColor}33` }}
         >
           <Image
             src={member.photo}
             alt={member.name}
-            width={64}
-            height={64}
+            width={96}
+            height={96}
             className="w-full h-full object-cover"
           />
         </div>
       ) : (
         <div
-          className={`w-16 h-16 mx-auto mb-3 flex items-center justify-center rounded-full border ${colors.border} ${colors.bg}`}
+          className={`w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-full border ${colors.border} ${colors.bg}`}
         >
           <span
-            className={`${colors.text} text-sm font-bold`}
+            className={`${colors.text} text-lg font-bold`}
             style={{
               fontFamily: "var(--font-space-grotesk)",
             }}
@@ -269,82 +264,112 @@ function TeamMemberCard({
           </span>
         </div>
       )}
-      <div
-        className="text-white text-xs font-semibold leading-tight"
-        style={{
-          fontFamily: "var(--font-space-grotesk)",
-        }}
-      >
-        {member.name}
-      </div>
-      <div
-        className="text-text-muted mt-1"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.55rem",
-          letterSpacing: "0.08em",
-        }}
-      >
-        {member.position}
-      </div>
 
-      {/* Badge for KDP members */}
-      {member.badge && (
-        <div className="mt-1.5 flex items-center gap-1 justify-center">
-          <Award size={9} className={colors.text} />
-          <span
-            className={colors.text}
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.48rem",
-              letterSpacing: "0.06em",
-            }}
-          >
-            {member.badge}
-          </span>
+      {/* Info */}
+      <div className="min-w-0 flex-1">
+        <div
+          className="text-white text-base font-semibold leading-tight"
+          style={{
+            fontFamily: "var(--font-space-grotesk)",
+          }}
+        >
+          {member.name}
         </div>
-      )}
+        <div
+          className="text-text-muted mt-1"
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.65rem",
+            letterSpacing: "0.06em",
+          }}
+        >
+          {member.position}
+        </div>
 
-      {/* Hover reveal: contact details */}
-      <div
-        className={`mt-2 space-y-1 transition-all duration-300 overflow-hidden ${
-          hovered ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        {member.email && (
-          <a
-            href={`mailto:${member.email}`}
-            className="flex items-center gap-1 justify-center text-text-muted hover:text-white transition-colors"
+        {/* Department badge */}
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span
+            className="hud-chip !text-[0.55rem] !px-1.5 !py-0.5"
+            data-tone={colors.chip}
           >
-            <Mail size={9} className="flex-shrink-0" />
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.5rem",
-                letterSpacing: "0.03em",
-              }}
-            >
-              {member.email}
+            {dept.name}
+          </span>
+          {member.badge && (
+            <span className="inline-flex items-center gap-1">
+              <Award size={11} className={colors.text} />
+              <span
+                className={colors.text}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.55rem",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {member.badge}
+              </span>
             </span>
-          </a>
-        )}
-        {primaryPhone && (
-          <a
-            href={`tel:${primaryPhone.replace(/\s/g, "")}`}
-            className="flex items-center gap-1 justify-center text-text-muted hover:text-white transition-colors"
-          >
-            <Phone size={9} className="flex-shrink-0" />
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.5rem",
-                letterSpacing: "0.03em",
-              }}
-            >
-              {primaryPhone}
-            </span>
-          </a>
-        )}
+          )}
+        </div>
+
+        {/* Contact info — always visible */}
+        <div className="mt-2.5 space-y-1">
+          {phoneNumbers.length > 0 && (
+            <div className="flex items-start gap-1.5">
+              <Phone
+                size={12}
+                className="text-text-muted flex-shrink-0 mt-0.5"
+              />
+              <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+                {phoneNumbers.map((phone) => (
+                  <a
+                    key={phone}
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    className="text-text-muted hover:text-white transition-colors"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {phone}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+          {member.mob && (
+            <div className="flex items-center gap-1.5">
+              <Smartphone size={12} className="text-text-muted flex-shrink-0" />
+              <a
+                href={`tel:${member.mob.replace(/\s/g, "")}`}
+                className="text-text-muted hover:text-white transition-colors"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {member.mob}
+              </a>
+            </div>
+          )}
+          {member.email && (
+            <div className="flex items-center gap-1.5">
+              <Mail size={12} className="text-text-muted flex-shrink-0" />
+              <a
+                href={`mailto:${member.email}`}
+                className="text-text-muted hover:text-white transition-colors truncate"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {member.email}
+              </a>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -365,7 +390,7 @@ export default function ONasPage() {
         <div className="mb-20 animate-float-up">
           <div className="section-tag mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />O
-            O NÁS // PŘÍBĚH
+            NÁS // PŘÍBĚH
           </div>
           <h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white"
@@ -398,7 +423,7 @@ export default function ONasPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Nas pribeh
+                  Náš příběh
                 </span>
               </div>
               <p className="text-text-secondary leading-relaxed mb-5">
@@ -466,7 +491,7 @@ export default function ONasPage() {
               <div className="relative glass-panel p-2">
                 <Image
                   src="/images/cheb/Chebana_dron_2.jpg"
-                  alt="Letecky pohled na sidlo SCH-EKONOM v Chebu — budova Chebana"
+                  alt="Letecký pohled na sídlo SCH-EKONOM v Chebu — budova Chebana"
                   width={640}
                   height={420}
                   className="w-full h-auto object-cover"
@@ -660,15 +685,15 @@ export default function ONasPage() {
                     >
                       {members.length}{" "}
                       {members.length === 1
-                        ? "clen"
+                        ? "člen"
                         : members.length < 5
-                          ? "clenove"
-                          : "clenu"}
+                          ? "členové"
+                          : "členů"}
                     </span>
                   </div>
 
                   {/* Members grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {members.map((member) => (
                       <TeamMemberCard
                         key={member.name}
@@ -789,17 +814,17 @@ export default function ONasPage() {
                   textTransform: "uppercase",
                 }}
               >
-                Udaje o spolecnosti
+                Údaje o společnosti
               </span>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { label: "Obchodni firma", value: "SCH-EKONOM s.r.o." },
-                { label: "ICO", value: "64832694" },
-                { label: "DIC", value: "CZ64832694" },
+                { label: "Obchodní firma", value: "SCH-EKONOM s.r.o." },
+                { label: "IČO", value: "64832694" },
+                { label: "DIČ", value: "CZ64832694" },
                 {
-                  label: "Spisova znacka",
-                  value: "C 7431 vedena u Krajskeho soudu v Plzni",
+                  label: "Spisová značka",
+                  value: "C 7431 vedená u Krajského soudu v Plzni",
                 },
               ].map((item) => (
                 <div key={item.label}>

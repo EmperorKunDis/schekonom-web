@@ -27,6 +27,7 @@ const services = [
     desc: "Kompletní vedení podvojného účetnictví a daňové evidence pro firmy i OSVČ. Využíváme moderní účetní software propojený s naší AI platformou pro maximální přesnost a efektivitu.",
     tags: ["Podvojné účetnictví", "Daňová evidence", "Závěrky", "Outsourcing"],
     ai: false,
+    href: "/ucetnictvi",
     image: "/images/editorial/12027a_8497d15dcdca4e478a3b7deaee0da57f_mv2.jpg",
     features: [
       "Vedení podvojného účetnictví dle českých i mezinárodních standardů",
@@ -47,6 +48,7 @@ const services = [
     desc: "Komplexní daňové poradenství pro právnické i fyzické osoby. Zajistíme optimální nastavení daňových povinností, zastoupíme vás při komunikaci s finančním úřadem a pohlídáme všechny termíny.",
     tags: ["DPPO", "DPFO", "DPH", "Optimalizace"],
     ai: false,
+    href: "/danove-poradenstvi",
     image: "/images/editorial/12027a_370f322571a947f9b32170d3cab54e4e_mv2.jpg",
     features: [
       "Přiznání k dani z příjmů právnických osob (DPPO)",
@@ -67,6 +69,7 @@ const services = [
     desc: "Kompletní zpracování mezd a personální administrativa. Od pracovní smlouvy po roční zúčtování — postaráme se o vše. Garantujeme bezchybné výpočty a včasná hlášení.",
     tags: ["Mzdy", "Personalistika", "ČSSZ", "Zúčtování"],
     ai: false,
+    href: "/mzdove-ucetnictvi",
     image: "/images/editorial/12027a_7c3bfba7d2f4484a9e0fbf991a54c2c9_mv2.jpg",
     features: [
       "Kompletní měsíční zpracování mezd pro libovolný počet zaměstnanců",
@@ -88,7 +91,7 @@ const services = [
     tags: ["Steuererklärung", "Freistellung", "Kindergeld", "ELSTER"],
     ai: false,
     image: "/images/editorial/12027a_aab4b581b3624b8f9e5ba8b90774b19a_mv2.jpg",
-    link: "/nemecke-dane",
+    href: "/nemecke-dane",
     features: [
       "Kompletní zpracování německého daňového přiznání (Steuererklärung)",
       "Žádosti o osvobození od srážkové daně (Freistellung)",
@@ -106,6 +109,7 @@ const services = [
     desc: "Specializované služby pro české a německé subjekty v příhraničním regionu. Řešíme specifické situace firem s přeshraničními operacemi, transferové ceny a dvojí zdanění.",
     tags: ["Dvojí zdanění", "Transfer pricing", "Investoři", "A1"],
     ai: false,
+    href: "/preshranicni-poradenstvi",
     image: "/images/editorial/12027a_3837e0058d824b70bf6cedf116a089db_mv2.jpg",
     features: [
       "Daňové poradenství pro německé subjekty podnikající v ČR",
@@ -124,6 +128,7 @@ const services = [
     desc: "Vydávání a správa kvalifikovaných digitálních certifikátů pro elektronické podpisy dle nařízení eIDAS. Bezpečná elektronická komunikace s úřady a obchodními partnery.",
     tags: ["eIDAS", "Kvalifikovaný podpis", "Certifikáty"],
     ai: false,
+    href: "/certifikacni-autorita",
     image: "/images/editorial/12027a_8fff885c31134da0ba826e99ef1b53a7_mv2.jpg",
     features: [
       "Vydávání kvalifikovaných certifikátů pro elektronický podpis",
@@ -312,23 +317,36 @@ function ServiceCard({
         </div>
 
         {/* Detail link */}
-        {service.link && (
-          <div className="mt-6 pt-4 border-t border-cyan/8">
+        <div className="mt-6 pt-4 border-t border-cyan/8">
+          {service.href ? (
             <Link
-              href={service.link}
+              href={service.href}
               className="inline-flex items-center gap-2 text-cyan text-sm font-medium hover:gap-3 transition-all"
               style={{ fontFamily: "var(--font-space-grotesk)" }}
             >
               Více informací
               <ArrowRight size={14} />
             </Link>
-          </div>
-        )}
+          ) : (
+            <span
+              className="inline-flex items-center gap-2 text-text-muted text-sm"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
+              Připravujeme
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
 
-  return content;
+  return service.href ? (
+    <Link href={service.href} className="block">
+      {content}
+    </Link>
+  ) : (
+    content
+  );
 }
 
 function FadeInSection({

@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function PortalGuard({ children }: { children: React.ReactNode }) {
-  const { session } = useAuth();
+  const { profile } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) router.replace("/prihlaseni");
-  }, [session, router]);
+    if (!profile) router.replace("/prihlaseni");
+  }, [profile, router]);
 
-  if (!session) return null;
+  if (!profile) return null;
   return <>{children}</>;
 }

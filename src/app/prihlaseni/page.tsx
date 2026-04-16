@@ -3,27 +3,21 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Activity,
   AlertTriangle,
   ArrowRight,
-  Bot,
-  Building2,
-  Cpu,
-  KeyRound,
   Lock,
   Phone,
   Shield,
-  Sparkles,
   User,
-  Users,
-  type LucideIcon,
+  Building2,
+  Crown,
+  Briefcase,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 import { useAuth } from "@/lib/auth/context";
-import { demoProfiles, DEMO_MODE } from "@/lib/demo/data";
-import { requestDemoCode, verifyDemoCode } from "@/lib/demo/api";
-import type { RequestCodeResponse, VerifyCodeResponse } from "@/lib/demo/api";
-import type { DemoProfile } from "@/lib/demo/types";
+import { erpProfiles } from "@/lib/erp/data";
+import type { ErpProfile } from "@/lib/erp/types";
+import { log } from "@/lib/logger";
 
 const labelStyle = {
   fontFamily: "SF Mono, Monaco, Consolas, monospace",
@@ -33,73 +27,78 @@ const labelStyle = {
   color: "rgba(0,229,255,0.72)",
 };
 
-function InfoTile({
-  title,
-  value,
-  sub,
-  icon: Icon,
-}: {
-  title: string;
-  value: string;
-  sub: string;
-  icon: LucideIcon;
-}) {
-  return (
-    <div className="hud-mini-metric" data-tone="slate">
-      <div className="mb-3 flex items-center gap-2">
-        <Icon size={14} color="rgba(0,229,255,0.72)" />
-        <span style={labelStyle}>{title}</span>
-      </div>
-      <div style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: 6 }}>
-        {value}
-      </div>
-      <div style={{ color: "#7A8A9E", lineHeight: 1.5 }}>{sub}</div>
-    </div>
-  );
-}
+const roleIcons: Record<string, typeof User> = {
+  owner: Crown,
+  employee: Briefcase,
+  client: User,
+};
+
+const roleBadgeColors: Record<string, string> = {
+  owner: "gold",
+  employee: "cyan",
+  client: "green",
+};
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
 
-  const defaultProfile = demoProfiles[0];
-  const [activeProfileId, setActiveProfileId] = useState(defaultProfile.id);
-  const [surname, setSurname] = useState(defaultProfile.surname);
-  const [phone, setPhone] = useState(defaultProfile.phone);
+  const [selectedProfile, setSelectedProfile] = useState<ErpProfile | null>(
+    null,
+  );
+  const [phoneInput, setPhoneInput] = useState("");
   const [code, setCode] = useState("");
-  const [challenge, setChallenge] = useState<RequestCodeResponse | null>(null);
+  const [step, setStep] = useState<"pick" | "phone" | "code">("pick");
   const [loadingStage, setLoadingStage] = useState<"request" | "verify" | null>(
     null,
   );
   const [error, setError] = useState("");
+  const [smsSent, setSmsSent] = useState(false);
 
-  const activeProfile =
-    demoProfiles.find((p) => p.id === activeProfileId) ?? defaultProfile;
-
-  const pickProfile = (profile: DemoProfile) => {
-    setActiveProfileId(profile.id);
-    setSurname(profile.surname);
-    setPhone(profile.phone);
+  const pickProfile = (profile: ErpProfile) => {
+    log.authProfileSelected({
+      id: profile.id,
+      name: profile.name,
+      role: profile.role,
+    });
+    setSelectedProfile(profile);
+    setPhoneInput("");
     setCode("");
-    setChallenge(null);
     setError("");
+    setSmsSent(false);
+    setStep("phone");
   };
 
   const handleRequestCode = async (event: FormEvent) => {
     event.preventDefault();
+    if (!selectedProfile || !phoneInput) return;
     setLoadingStage("request");
     setError("");
 
+    log.authRequestingOtp(phoneInput);
+
     try {
-      const response = await requestDemoCode(surname, phone);
-      setChallenge(response);
-      setCode(response.relayCode ?? "");
-    } catch (requestError) {
-      setError(
-        requestError instanceof Error
-          ? requestError.message
-          : "Nepodařilo se vytvořit ověřovací výzvu.",
-      );
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profileId: selectedProfile.id,
+          phone: phoneInput,
+        }),
+      });
+      const data = await res.json();
+
+      log.authOtpResponse(data.status, data.error || data.debug);
+
+      if (!res.ok) throw new Error(data.error || "Nepodařilo se odeslat kód.");
+
+      setSmsSent(true);
+      setStep("code");
+    } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Chyba při odesílání SMS.";
+      log.authOtpResponse("error", msg);
+      setError(msg);
     } finally {
       setLoadingStage(null);
     }
@@ -107,41 +106,32 @@ export default function LoginPage() {
 
   const handleVerifyCode = async (event: FormEvent) => {
     event.preventDefault();
-    if (!challenge) return;
+    if (!code || !phoneInput) return;
     setLoadingStage("verify");
     setError("");
 
+    log.authVerifying();
+
     try {
-      const session: VerifyCodeResponse = await verifyDemoCode(
-        challenge.challengeId,
-        code,
-      );
-      login(session);
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: phoneInput, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Ověření selhalo.");
+
+      log.authLoginSuccess(data.profile.name);
+      login(data.profile);
       router.push("/portal");
-    } catch (verifyError) {
-      setError(
-        verifyError instanceof Error
-          ? verifyError.message
-          : "Nepodařilo se otevřít pracovní plochu.",
-      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Chyba při ověřování.";
+      log.authLoginFailed(msg);
+      setError(msg);
     } finally {
       setLoadingStage(null);
     }
   };
-
-  const demoFlow = [
-    "Vyberte showcase profil podle role.",
-    "Po odeslání jde OTP na telefon majitele, ne na číslo uživatele.",
-    "Po ověření se otevře pracovní plocha přesně podle role.",
-    "Každý profil vidí jen své klienty, termíny a výjimky.",
-  ];
-
-  const apiHandshake = [
-    "POST /api/demo/auth/request-code",
-    "POST /api/demo/auth/verify-code",
-    "GET /api/dashboard",
-    "GET /api/clients/:id",
-  ];
 
   return (
     <div
@@ -157,18 +147,17 @@ export default function LoginPage() {
           <div>
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <span className="hud-chip" data-tone="cyan">
-                SHOWCASE BUILD
+                ERP SHOWCASE
               </span>
               <span className="hud-chip" data-tone="gold">
-                OTP na telefon majitele
+                OTP OVĚŘENÍ
               </span>
               <span className="hud-chip" data-tone="green">
-                Agentní finance
+                3 ROLE
               </span>
             </div>
             <Logo size={52} showText={true} />
           </div>
-
           <div className="hud-panel flex max-w-xl flex-wrap items-center gap-3 px-4 py-4">
             <div
               className="flex h-10 w-10 items-center justify-center"
@@ -188,7 +177,7 @@ export default function LoginPage() {
                   fontWeight: 600,
                 }}
               >
-                Jeden klient, tři role, jedna inteligentní operační vrstva.
+                Kompletní ERP pro účetní firmu. Vyberte roli a vstupte.
               </div>
             </div>
           </div>
@@ -196,16 +185,15 @@ export default function LoginPage() {
 
         {/* Main grid */}
         <div className="grid gap-6 xl:grid-cols-12">
-          {/* Left column */}
+          {/* Left column — profile cards + auth */}
           <div className="xl:col-span-7">
-            {/* Profile selector panel */}
             <div className="hud-panel mb-6 p-6 md:p-8">
               <div className="mb-4 flex flex-wrap items-center gap-3">
                 <span className="hud-chip" data-tone="cyan">
                   CONTROLLED ACCESS
                 </span>
                 <span className="hud-chip" data-tone="slate">
-                  3 demo profily
+                  3 profily
                 </span>
               </div>
 
@@ -229,7 +217,7 @@ export default function LoginPage() {
                     backgroundClip: "text",
                   }}
                 >
-                  SCH-EKONOM Control Center
+                  Control Center
                 </span>
               </h1>
 
@@ -241,16 +229,16 @@ export default function LoginPage() {
                   marginBottom: 28,
                 }}
               >
-                Místo další landing page tady vzniká produktový showcase. Login
-                je řízený, ověřování jde přes OTP na telefon majitele a po
-                přihlášení se otevře role-specific pracovní plocha s klienty,
-                workflow, riziky a agentními akcemi.
+                Každá role vidí jiný rozsah dat, jinou navigaci a jiné metriky.
+                Přihlášení přes OTP zajišťuje bezpečný přístup bez klasických
+                hesel.
               </p>
 
               {/* Profile cards */}
               <div className="grid gap-4 md:grid-cols-3">
-                {demoProfiles.map((profile) => {
-                  const isActive = profile.id === activeProfile.id;
+                {erpProfiles.map((profile) => {
+                  const isActive = selectedProfile?.id === profile.id;
+                  const RoleIcon = roleIcons[profile.role] || User;
                   return (
                     <button
                       key={profile.id}
@@ -263,32 +251,66 @@ export default function LoginPage() {
                           className="hud-chip"
                           data-tone={isActive ? "cyan" : "slate"}
                         >
-                          Demo access
+                          {profile.role.toUpperCase()}
                         </span>
-                        <span
+                        <RoleIcon
+                          size={18}
+                          color={isActive ? "#00E5FF" : "#7A8A9E"}
+                        />
+                      </div>
+
+                      {profile.photo ? (
+                        <div
+                          className="mb-3 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full"
+                          style={{ border: "2px solid rgba(0,229,255,0.2)" }}
+                        >
+                          <div
+                            className="flex h-full w-full items-center justify-center"
+                            style={{
+                              background: `linear-gradient(135deg, rgba(0,229,255,0.15), rgba(212,175,55,0.1))`,
+                              fontFamily: "Space Grotesk, sans-serif",
+                              fontSize: "1.1rem",
+                              fontWeight: 700,
+                              color: "#00E5FF",
+                            }}
+                          >
+                            {profile.name.split(" ")[0][0]}
+                            {profile.surname[0]?.toUpperCase()}
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="mb-3 flex h-12 w-12 items-center justify-center rounded-full"
                           style={{
-                            ...labelStyle,
-                            color: "rgba(255,255,255,0.48)",
+                            background:
+                              "linear-gradient(135deg, rgba(0,229,255,0.15), rgba(212,175,55,0.1))",
+                            border: "2px solid rgba(0,229,255,0.2)",
+                            fontFamily: "Space Grotesk, sans-serif",
+                            fontSize: "1.1rem",
+                            fontWeight: 700,
+                            color: "#00E5FF",
                           }}
                         >
-                          {profile.role === "client" ? "CLIENT" : "EMPLOYEE"}
-                        </span>
-                      </div>
+                          {profile.name.split(" ")[0][0]}
+                          {profile.surname[0]?.toUpperCase()}
+                        </div>
+                      )}
+
                       <div
                         style={{
                           fontFamily: "Space Grotesk, sans-serif",
-                          fontSize: "1.55rem",
+                          fontSize: "1.35rem",
                           color: "#FFFFFF",
                           fontWeight: 700,
-                          marginBottom: 8,
+                          marginBottom: 4,
                         }}
                       >
-                        {profile.surname}
+                        {profile.name.split(" ")[0]} {profile.surname}
                       </div>
                       <div
                         style={{
                           color: "#FFFFFF",
-                          fontSize: "0.92rem",
+                          fontSize: "0.88rem",
                           marginBottom: 4,
                         }}
                       >
@@ -296,21 +318,13 @@ export default function LoginPage() {
                       </div>
                       <div
                         style={{
-                          color: "#7A8A9E",
-                          fontSize: "0.82rem",
-                          marginBottom: 14,
-                        }}
-                      >
-                        {profile.phone}
-                      </div>
-                      <div
-                        style={{
                           color: "#B8C1C8",
                           lineHeight: 1.65,
                           fontSize: "0.83rem",
+                          marginBottom: 4,
                         }}
                       >
-                        {profile.summary}
+                        {profile.department}
                       </div>
                       <div
                         className="mt-4 flex items-center gap-2"
@@ -318,7 +332,12 @@ export default function LoginPage() {
                       >
                         <Building2 size={14} />
                         <span style={{ fontSize: "0.78rem" }}>
-                          {profile.domain}
+                          {profile.visibleCompanyIds.length}{" "}
+                          {profile.visibleCompanyIds.length === 1
+                            ? "firma"
+                            : profile.visibleCompanyIds.length < 5
+                              ? "firmy"
+                              : "firem"}
                         </span>
                       </div>
                     </button>
@@ -327,10 +346,9 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Auth forms row */}
-            <div className="grid gap-6 xl:grid-cols-12">
-              {/* Step 1: Request code */}
-              <div className="xl:col-span-7">
+            {/* Auth form — step-based */}
+            {step === "phone" && selectedProfile && (
+              <div className="max-w-lg">
                 <form className="hud-panel p-6" onSubmit={handleRequestCode}>
                   <div className="mb-5 flex items-center gap-3">
                     <div
@@ -340,57 +358,75 @@ export default function LoginPage() {
                         background: "rgba(0,229,255,0.06)",
                       }}
                     >
-                      <KeyRound size={18} color="#00E5FF" />
+                      <Phone size={18} color="#00E5FF" />
                     </div>
                     <div>
-                      <div style={labelStyle}>STEP 01 // REQUEST OTP</div>
+                      <div style={labelStyle}>STEP 01 // SMS OVĚŘENÍ</div>
                       <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
-                        Přihlášení přes příjmení a telefon
+                        Zadejte váš telefon pro zaslání kódu
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <label>
-                      <span style={labelStyle}>Příjmení</span>
-                      <input
-                        className="hud-input"
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                        placeholder="svanda"
-                      />
-                    </label>
-                    <label>
-                      <span style={labelStyle}>Telefon</span>
-                      <input
-                        className="hud-input"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+491759096965"
-                      />
-                    </label>
+                  <div className="mb-4 rounded-sm border border-cyan-500/10 bg-cyan-500/5 p-3">
+                    <div style={labelStyle}>Vybraný profil</div>
+                    <div
+                      style={{
+                        color: "#FFFFFF",
+                        fontSize: "0.95rem",
+                        fontWeight: 600,
+                        marginTop: 4,
+                      }}
+                    >
+                      {selectedProfile.name} — {selectedProfile.title}
+                    </div>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <label className="mb-4 block">
+                    <span style={labelStyle}>Váš telefonní číslo</span>
+                    <input
+                      className="hud-input"
+                      value={phoneInput}
+                      onChange={(e) => setPhoneInput(e.target.value)}
+                      placeholder="+420..."
+                      disabled={!selectedProfile}
+                    />
+                  </label>
+
+                  <div className="flex flex-wrap items-center gap-3">
                     <button
                       className="hud-button"
                       type="submit"
-                      disabled={loadingStage === "request"}
+                      disabled={!phoneInput || loadingStage === "request"}
                     >
                       {loadingStage === "request"
-                        ? "Posílám..."
-                        : "Poslat ověřovací kód"}
+                        ? "Odesílám SMS..."
+                        : "Odeslat ověřovací kód"}
                       <ArrowRight size={15} />
                     </button>
-                    <div
-                      className="flex items-center gap-2"
-                      style={{ color: "#7A8A9E" }}
+                    <button
+                      type="button"
+                      className="hud-button-secondary"
+                      onClick={() => {
+                        setStep("pick");
+                        setSelectedProfile(null);
+                        setError("");
+                      }}
                     >
-                      <Phone size={14} />
-                      <span style={{ fontSize: "0.82rem" }}>
-                        SMS jde na telefon majitele, ne na číslo v poli.
-                      </span>
-                    </div>
+                      Zpět
+                    </button>
+                  </div>
+
+                  <div
+                    className="mt-4"
+                    style={{
+                      color: "#7A8A9E",
+                      fontSize: "0.78rem",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Na zadané číslo přijde SMS s 6místným ověřovacím kódem z
+                    čísla +1 (276) 800-1167.
                   </div>
 
                   {error && (
@@ -401,210 +437,245 @@ export default function LoginPage() {
                   )}
                 </form>
               </div>
+            )}
 
-              {/* Step 2: Verify code */}
-              <div className="xl:col-span-5">
-                <form
-                  className="hud-panel h-full p-6"
-                  onSubmit={handleVerifyCode}
-                >
+            {/* Step 2: Enter OTP code */}
+            {step === "code" && selectedProfile && (
+              <div className="max-w-lg">
+                <form className="hud-panel p-6" onSubmit={handleVerifyCode}>
                   <div className="mb-5 flex items-center gap-3">
                     <div
                       className="flex h-10 w-10 items-center justify-center"
                       style={{
-                        border: "1px solid rgba(212,175,55,0.22)",
-                        background: "rgba(212,175,55,0.06)",
+                        border: "1px solid rgba(0,229,160,0.22)",
+                        background: "rgba(0,229,160,0.06)",
                       }}
                     >
-                      <Lock size={18} color="rgba(212,175,55,0.92)" />
+                      <Lock size={18} color="#00E5A0" />
                     </div>
                     <div>
-                      <div style={labelStyle}>STEP 02 // VERIFY & OPEN</div>
+                      <div style={labelStyle}>STEP 02 // OVĚŘENÍ</div>
                       <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
-                        Otevřít pracovní plochu podle role
+                        Zadejte kód z SMS
                       </div>
                     </div>
                   </div>
 
-                  <div className="mb-4 rounded-sm border border-cyan-500/10 bg-cyan-500/5 p-4">
-                    <div style={labelStyle}>Status</div>
+                  <div className="mb-4 rounded-sm border border-status-green/15 bg-status-green/5 p-3">
                     <div
                       style={{
-                        color: "#FFFFFF",
-                        fontSize: "0.92rem",
-                        marginBottom: 8,
+                        color: "#00E5A0",
+                        fontSize: "0.85rem",
+                        fontWeight: 500,
                       }}
                     >
-                      {challenge
-                        ? `SMS relay aktivní. Kód byl poslán na ${challenge.ownerPhone}.`
-                        : "Nejdřív vygenerujte OTP v levém panelu."}
+                      ✓ SMS odeslána na {phoneInput}
                     </div>
                     <div
                       style={{
                         color: "#7A8A9E",
-                        lineHeight: 1.65,
-                        fontSize: "0.82rem",
+                        fontSize: "0.75rem",
+                        marginTop: 4,
                       }}
                     >
-                      V produkci by šel kód jen přes backend a SMS provider.
-                      Tady je přítomná i demo relay vrstva, aby šlo showcase
-                      rovnou odprezentovat.
+                      Profil: {selectedProfile.name} ({selectedProfile.role})
                     </div>
                   </div>
 
-                  <label>
-                    <span style={labelStyle}>6místný kód</span>
+                  <label className="mb-4 block">
+                    <span style={labelStyle}>6místný ověřovací kód</span>
                     <input
                       className="hud-input"
                       value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                      placeholder="428611"
+                      onChange={(e) =>
+                        setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                      }
+                      placeholder="000000"
+                      maxLength={6}
+                      autoFocus
+                      style={{
+                        fontSize: "1.5rem",
+                        letterSpacing: "0.3em",
+                        textAlign: "center",
+                      }}
                     />
                   </label>
 
-                  {challenge?.relayCode && DEMO_MODE ? (
-                    <div className="mt-4 rounded-sm border border-amber-400/15 bg-amber-300/5 p-4">
-                      <div
-                        className="mb-2 flex items-center gap-2"
-                        style={labelStyle}
-                      >
-                        <Sparkles size={13} color="rgba(212,175,55,0.92)" />
-                        DEMO RELAY // simulace SMS pro majitele
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Space Grotesk, sans-serif",
-                          fontSize: "1.8rem",
-                          color: "#FFFFFF",
-                          letterSpacing: "0.16em",
-                        }}
-                      >
-                        {challenge.relayCode}
-                      </div>
-                    </div>
-                  ) : null}
+                  {/* Kód se NIKDY nezobrazuje — přijde POUZE přes SMS */}
 
-                  <div className="mt-5 flex flex-wrap gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     <button
                       className="hud-button"
                       type="submit"
-                      disabled={!challenge || loadingStage === "verify"}
+                      disabled={code.length < 6 || loadingStage === "verify"}
                     >
                       {loadingStage === "verify"
                         ? "Ověřuji..."
-                        : "Otevřít pracovní plochu"}
+                        : "Vstoupit do portálu"}
                       <ArrowRight size={15} />
                     </button>
-                    <span className="hud-chip" data-tone="slate">
-                      OTP expire 5 min
-                    </span>
+                    <button
+                      type="button"
+                      className="hud-button-secondary"
+                      onClick={() => {
+                        setStep("phone");
+                        setCode("");
+                        setError("");
+                      }}
+                    >
+                      Zpět
+                    </button>
                   </div>
+
+                  {error && (
+                    <div className="hud-inline-alert mt-5">
+                      <AlertTriangle size={16} />
+                      <span>{error}</span>
+                    </div>
+                  )}
                 </form>
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Right column */}
+          {/* Right column — info panels */}
           <div className="space-y-6 xl:col-span-5">
-            {/* Demo flow panel */}
-            <div className="hud-panel p-6">
-              <div className="mb-4 flex items-center gap-3">
-                <Bot size={18} color="#00E5FF" />
-                <div>
-                  <div style={labelStyle}>WHAT OWNER SEES</div>
-                  <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
-                    Hlavní wow momenty showcase
+            {selectedProfile && (
+              <div className="hud-panel p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <User size={18} color="#00E5FF" />
+                  <div>
+                    <div style={labelStyle}>VYBRANÝ PROFIL</div>
+                    <div
+                      style={{
+                        color: "#FFFFFF",
+                        fontSize: "1rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {selectedProfile.name.split(" ")[0]}{" "}
+                      {selectedProfile.surname}
+                    </div>
+                  </div>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <div className="hud-mini-metric" data-tone="slate">
+                    <div className="mb-2" style={labelStyle}>
+                      Role
+                    </div>
+                    <div style={{ color: "#FFFFFF", fontWeight: 600 }}>
+                      {selectedProfile.title}
+                    </div>
+                  </div>
+                  <div className="hud-mini-metric" data-tone="slate">
+                    <div className="mb-2" style={labelStyle}>
+                      Viditelné firmy
+                    </div>
+                    <div style={{ color: "#FFFFFF", fontWeight: 600 }}>
+                      {selectedProfile.visibleCompanyIds.length}
+                    </div>
+                  </div>
+                  <div className="hud-mini-metric" data-tone="slate">
+                    <div className="mb-2" style={labelStyle}>
+                      Oddělení
+                    </div>
+                    <div style={{ color: "#FFFFFF", fontWeight: 600 }}>
+                      {selectedProfile.department}
+                    </div>
+                  </div>
+                  <div className="hud-mini-metric" data-tone="slate">
+                    <div className="mb-2" style={labelStyle}>
+                      Přístup
+                    </div>
+                    <div style={{ color: "#FFFFFF", fontWeight: 600 }}>
+                      OTP ověření
+                    </div>
                   </div>
                 </div>
               </div>
+            )}
 
+            <div className="hud-panel p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <Shield size={18} color="#00E5FF" />
+                <div>
+                  <div style={labelStyle}>ROLE-BASED ACCESS</div>
+                  <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
+                    Co vidí každá role
+                  </div>
+                </div>
+              </div>
               <div className="space-y-3">
-                {demoFlow.map((step, index) => (
+                {[
+                  {
+                    role: "Owner",
+                    desc: "Kompletní přehled: 14 modulů, všichni klienti, financování, rizika",
+                  },
+                  {
+                    role: "Employee",
+                    desc: "Přiřazení klienti, úkoly, daně CZ/DE, dokumenty, komunikace",
+                  },
+                  {
+                    role: "Client",
+                    desc: "Vlastní firma: stav, dokumenty, termíny, doporučení, finance",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.role}
+                    className="hud-list-row hud-list-row-stacked"
+                  >
+                    <div className="mb-2">
+                      <span
+                        className="hud-chip"
+                        data-tone={
+                          item.role === "Owner"
+                            ? "gold"
+                            : item.role === "Employee"
+                              ? "cyan"
+                              : "green"
+                        }
+                      >
+                        {item.role}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        color: "#B8C1C8",
+                        lineHeight: 1.6,
+                        fontSize: "0.88rem",
+                      }}
+                    >
+                      {item.desc}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hud-panel p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <Lock size={18} color="#00E5FF" />
+                <div>
+                  <div style={labelStyle}>TECHNOLOGIE</div>
+                  <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
+                    Bezpečnostní vrstva
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {[
+                  "Twilio SMS OTP na telefon majitele",
+                  "Role-based navigace a data filtering",
+                  "Žádná hesla, pouze jednorázové kódy",
+                  "Automatický redirect podle role",
+                ].map((step, i) => (
                   <div key={step} className="hud-list-row">
-                    <span className="hud-step-index">{index + 1}</span>
+                    <span className="hud-step-index">{i + 1}</span>
                     <span style={{ color: "#B8C1C8", lineHeight: 1.6 }}>
                       {step}
                     </span>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            {/* API handshake panel */}
-            <div className="hud-panel p-6">
-              <div className="mb-4 flex items-center gap-3">
-                <Cpu size={18} color="#00E5FF" />
-                <div>
-                  <div style={labelStyle}>API HANDSHAKE</div>
-                  <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
-                    Showcase je připravený jako produkt, ne jako obrázek.
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                {apiHandshake.map((endpoint) => (
-                  <div key={endpoint} className="hud-list-row">
-                    <span className="hud-chip" data-tone="cyan">
-                      200
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "SF Mono, Monaco, Consolas, monospace",
-                        color: "#B8C1C8",
-                        fontSize: "0.75rem",
-                      }}
-                    >
-                      {endpoint}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Selected profile panel */}
-            <div className="hud-panel p-6">
-              <div className="mb-4 flex items-center gap-3">
-                <Activity size={18} color="#00E5FF" />
-                <div>
-                  <div style={labelStyle}>SELECTED PROFILE</div>
-                  <div
-                    style={{
-                      color: "#FFFFFF",
-                      fontSize: "1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {activeProfile.surname} // {activeProfile.title}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-2">
-                <InfoTile
-                  title="Role"
-                  value={activeProfile.title}
-                  sub={activeProfile.domain}
-                  icon={User}
-                />
-                <InfoTile
-                  title="Viditelní klienti"
-                  value={String(activeProfile.visibleClientIds.length)}
-                  sub="Role-based přístup"
-                  icon={Users}
-                />
-                <InfoTile
-                  title="Telefon"
-                  value={activeProfile.phone}
-                  sub="Showcase identifikátor"
-                  icon={Phone}
-                />
-                <InfoTile
-                  title="Workflow"
-                  value="OTP -> Workspace"
-                  sub="Bez klasického hesla"
-                  icon={Shield}
-                />
               </div>
             </div>
           </div>

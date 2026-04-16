@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Newspaper,
@@ -11,11 +12,13 @@ import {
   Scale,
   Sparkles,
   MapPin,
+  ChevronDown,
 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
 const articles = [
   {
+    id: 1,
     date: "15. ledna 2026",
     dateShort: "01/2026",
     icon: TrendingUp,
@@ -24,8 +27,16 @@ const articles = [
     excerpt:
       "Přehled klíčových legislativních změn platných od nového roku — zvýšení minimální mzdy, nové sazby pojistného, změny v nemocenském pojištění a úpravy v oblasti zaměstnaneckých benefitů.",
     tags: ["Mzdy", "Legislativa", "2026"],
+    fullContent: `Od 1. ledna 2026 dochází k významnému zvýšení minimální mzdy na 20 900 Kč měsíčně, což představuje nárůst o 1 400 Kč oproti roku 2025. S tím souvisí i zvýšení zaručených mezd ve všech skupinách prací. Zaměstnavatelé by měli zkontrolovat, zda mzdy všech zaměstnanců odpovídají novým minimálním úrovním, a případně provést úpravy mzdových výměrů.
+
+V oblasti sociálního pojištění se mění sazba pojistného na nemocenské pojištění zaměstnanců, která nově činí 0,9 % z vyměřovacího základu. Současně se upravuje rozhodný příjem pro účast na nemocenském pojištění na 4 500 Kč. Pro zaměstnavatele to znamená nutnost aktualizovat mzdové systémy a zkontrolovat nastavení výpočtů pojistného.
+
+Novinkou roku 2026 je rozšíření možností v oblasti zaměstnaneckých benefitů. Zvyšuje se limit pro osvobození příspěvků na stravování na 130 Kč za směnu, a nově je možné daňově zvýhodněně poskytovat příspěvky na sportovní aktivity dětí zaměstnanců. Změny se dotýkají i home-office paušálu, který se zvyšuje na 5,50 Kč za hodinu práce z domova.
+
+Důležitou změnou je také nová povinnost elektronického podávání přehledů o výši pojistného. Od dubna 2026 budou zaměstnavatelé povinni zasílat měsíční přehledy výhradně elektronicky prostřednictvím datové schránky nebo portálu ČSSZ. Doporučujeme všem klientům ověřit funkčnost datových schránek a připravit se na přechod na elektronické podání.`,
   },
   {
+    id: 2,
     date: "12. prosince 2025",
     dateShort: "12/2025",
     icon: Gift,
@@ -34,8 +45,16 @@ const articles = [
     excerpt:
       "Blíží se Vánoce a s nimi i otázka, jaké dárky pro zaměstnance a obchodní partnery si můžete uplatnit jako daňový náklad. Přinášíme přehled aktuálních limitů a podmínek pro rok 2025.",
     tags: ["Daně", "Benefity", "Vánoce"],
+    fullContent: `Vánoční dárky pro zaměstnance mohou být při správném nastavení daňově výhodné jak pro zaměstnavatele, tak pro zaměstnance. V roce 2025 platí, že nepeněžní plnění poskytovaná zaměstnancům z fondu kulturních a sociálních potřeb nebo ze sociálního fondu jsou na straně zaměstnance osvobozena od daně z příjmů do úhrnného limitu poloviny průměrné mzdy za rok, tedy přibližně 21 983 Kč.
+
+Pro zaměstnavatele je klíčové rozlišovat mezi dárky pro zaměstnance a dárky pro obchodní partnery. Dárky pro obchodní partnery do hodnoty 500 Kč bez DPH na osobu za zdaňovací období jsou daňově uznatelné jako reklamní nebo propagační předměty, pokud jsou opatřeny logem firmy. Dárky vyšší hodnoty je nutné posuzovat individuálně jako náklady na reprezentaci, které obecně nejsou daňově uznatelné.
+
+U zaměstnaneckých dárků doporučujeme využít formu nepeněžního plnění — poukázky na kulturu, sport, wellness nebo vzdělávání. Tyto benefity jsou pro zaměstnavatele daňově uznatelným nákladem a současně pro zaměstnance osvobozeny od daně z příjmů v rámci výše uvedeného limitu. Peněžní dárky (prémie, odměny) podléhají standardnímu zdanění a odvodům pojistného.
+
+Pokud plánujete vánoční večírek pro zaměstnance, náklady na něj jsou daňově uznatelné za předpokladu, že se jedná o akci pro zaměstnance (nikoli obchodní partnery) a je financována z provozních prostředků firmy. Doporučujeme vést řádnou evidenci, kdo se akce zúčastnil, a uchovat doklady o vynaložených nákladech.`,
   },
   {
+    id: 3,
     date: "20. listopadu 2025",
     dateShort: "11/2025",
     icon: Heart,
@@ -44,8 +63,16 @@ const articles = [
     excerpt:
       'S hrdostí oznamujeme naši účast v charitativním projektu „Sociální auto", který pomáhá zajistit mobilitu pro sociálně potřebné. Společenská odpovědnost je nedílnou součástí naší firemní kultury.',
     tags: ["CSR", "Charita", "Region"],
+    fullContent: `Projekt „Sociální auto" je charitativní iniciativa zaměřená na zajištění dopravní dostupnosti pro seniory, osoby se zdravotním postižením a rodiny v tíživé životní situaci v Karlovarském kraji. Cílem projektu je poskytnout těmto lidem možnost dopravy k lékaři, na úřady nebo za rodinou, a to zdarma nebo za symbolický poplatek.
+
+SCH-EKONOM se do projektu zapojil jako finanční partner a současně poskytuje bezplatné účetní poradenství neziskové organizaci, která projekt provozuje. Naši účetní pomáhají s vedením účetnictví projektu, zpracováním grantových žádostí a vyúčtováním dotací. Jsme přesvědčeni, že odborné znalosti mohou být stejně cenné jako finanční příspěvky.
+
+Společenská odpovědnost je pro nás důležitou součástí firemní kultury. V regionu, kde působíme více než 30 let, chceme být nejen poskytovatelem kvalitních služeb, ale také aktivním členem komunity. Kromě projektu Sociální auto dlouhodobě podporujeme místní sportovní kluby, kulturní akce a vzdělávací programy pro mládež.
+
+Pokud byste se chtěli k projektu přidat jako dobrovolníci nebo sponzoři, neváhejte nás kontaktovat. Rádi vám poskytneme více informací o tom, jak se zapojit a jaké jsou možnosti spolupráce. Každá pomoc se počítá a společně můžeme zlepšit kvalitu života v našem regionu.`,
   },
   {
+    id: 4,
     date: "1. června 2025",
     dateShort: "06/2025",
     icon: Scale,
@@ -54,8 +81,16 @@ const articles = [
     excerpt:
       "Novela zákoníku práce přináší důležité změny v oblasti práce na dálku, dohod o pracích konaných mimo pracovní poměr a informační povinnosti zaměstnavatelů. Shrnujeme, co potřebujete vědět.",
     tags: ["Zákoník práce", "Novela", "HR"],
+    fullContent: `Novela zákoníku práce účinná od 1. června 2025 přináší zásadní změny v oblasti práce na dálku (home-office). Zaměstnavatel je nově povinen písemně dohodnout podmínky práce na dálku, včetně rozvržení pracovní doby, způsobu zadávání úkolů a náhrady nákladů. Zaměstnanec pečující o dítě mladší 9 let nebo těhotná zaměstnankyně mají právo na práci na dálku, pokud tomu nebrání vážné provozní důvody.
+
+Významné změny se dotýkají dohod o pracích konaných mimo pracovní poměr (DPP a DPČ). Zaměstnanci pracující na dohody mají nově nárok na dovolenou, jejíž výpočet se řídí stejnými pravidly jako u zaměstnanců v pracovním poměru. Dále se zavádí povinnost rozvrhovat pracovní dobu i u dohod, a to nejméně 3 dny předem, pokud se zaměstnavatel se zaměstnancem nedohodnou jinak.
+
+Novela rozšiřuje informační povinnost zaměstnavatele. Zaměstnavatel je povinen písemně informovat zaměstnance o podstatných aspektech pracovního poměru nejpozději do 7 dnů od vzniku pracovního poměru. Informace musí zahrnovat údaje o délce dovolené, výpovědních dobách, odměňování, pracovní době a dalších podmínkách. Při vyslání zaměstnance do zahraničí přibývají další informační povinnosti.
+
+Doporučujeme všem zaměstnavatelům revidovat interní dokumenty — pracovní smlouvy, vnitřní předpisy a dohody o práci na dálku — a uvést je do souladu s novou právní úpravou. Naši pracovněprávní poradci jsou připraveni pomoci s aktualizací dokumentace a zodpovědět vaše dotazy k nové legislativě.`,
   },
   {
+    id: 5,
     date: "8. ledna 2025",
     dateShort: "01/2025",
     icon: Sparkles,
@@ -64,8 +99,16 @@ const articles = [
     excerpt:
       "Komplexní přehled všech legislativních změn ovlivňujících podnikatele, zaměstnavatele i zaměstnance v roce 2025. Od daňových sazeb přes pojistné až po nové povinnosti v oblasti elektronizace.",
     tags: ["Legislativa", "Přehled", "2025"],
+    fullContent: `Rok 2025 přináší řadu změn v daňové oblasti. Sazba daně z příjmů právnických osob zůstává na 21 %, avšak mění se pravidla pro uplatnění některých daňových odpočtů. Nově se zpřísňují podmínky pro odpočet na výzkum a vývoj — firmy budou muset dokládat výdaje podrobněji a evidovat je v reálném čase. Sleva na poplatníka se zvyšuje na 30 840 Kč ročně a strop pro solidární zvýšení daně se posouvá na čtyřnásobek průměrné mzdy.
+
+V oblasti pojistného dochází ke zvýšení maximálního vyměřovacího základu pro sociální pojištění na 2 234 736 Kč ročně. Minimální zálohy pro OSVČ na sociální pojištění rostou na 3 852 Kč měsíčně a na zdravotní pojištění na 2 968 Kč měsíčně. Živnostníci by měli zkontrolovat nastavení trvalých příkazů a případně je aktualizovat.
+
+Elektronizace státní správy pokračuje zavedením povinné elektronické komunikace s finančními úřady pro všechny plátce DPH. Od července 2025 budou daňová přiznání k DPH přijímána výhradně elektronicky. Současně se rozšiřuje povinnost elektronické evidence tržeb (EET) na další obory — nově se týká i poskytovatelů ubytovacích služeb a stravovacích zařízení.
+
+Pro zaměstnavatele je důležitá změna v oblasti příspěvků na stravování. Od ledna 2025 se zvyšuje limit pro daňovou uznatelnost stravenkového paušálu na 116,20 Kč za směnu. Současně se mění pravidla pro poskytování stravenek — maximální nominální hodnota stravenky s plným daňovým zvýhodněním se zvyšuje na 170 Kč. Doporučujeme přehodnotit nastavení stravovacích benefitů ve vaší firmě.`,
   },
   {
+    id: 6,
     date: "říjen 2024",
     dateShort: "10/2024",
     icon: MapPin,
@@ -74,6 +117,13 @@ const articles = [
     excerpt:
       "Otevřeli jsme novou pobočku v Plzni v prostorách Kolektiv Hubu na Kopeckého sadech. Rozšiřujeme tak naše služby pro klienty v Plzeňském kraji a nabízíme osobní konzultace i mimo Cheb.",
     tags: ["Pobočka", "Plzeň", "Expanze"],
+    fullContent: `S radostí oznamujeme otevření naší nové pobočky v Plzni, která se nachází v moderních prostorách Kolektiv Hubu na Kopeckého sadech 26. Tímto krokem rozšiřujeme naše služby do Plzeňského kraje a přibližujeme se klientům, kteří dosud museli za osobními konzultacemi dojíždět do Chebu.
+
+Na plzeňské pobočce nabízíme kompletní portfolio našich služeb — od vedení účetnictví a daňového poradenství přes mzdovou agendu až po finanční analýzy a podnikové poradenství. Pobočka je otevřena každé úterý a čtvrtek od 9:00 do 16:00, v ostatní dny po předchozí domluvě. Osobní konzultace je možné sjednat telefonicky nebo e-mailem.
+
+Kolektiv Hub je moderní coworkingový prostor, který sdružuje progresivní firmy a profesionály z různých oborů. Toto prostředí nám umožňuje nabídnout klientům nejen kvalitní služby, ale také komfortní zázemí pro osobní schůzky a poradenské konzultace. Prostory jsou plně bezbariérové a snadno dostupné městskou hromadnou dopravou i autem.
+
+Otevření plzeňské pobočky je součástí naší dlouhodobé strategie regionální expanze. V budoucnu plánujeme rozšířit působnost i do dalších krajských měst. Pokud jste z Plzeňského kraje a máte zájem o naše služby, neváhejte nás kontaktovat. Rádi vám připravíme nezávaznou nabídku a představíme, jak vám můžeme pomoci s účetnictvím, daněmi a financemi.`,
   },
 ];
 
@@ -98,20 +148,25 @@ function FadeInSection({
 function NewsCard({
   article,
   index,
+  expanded,
+  onToggle,
 }: {
   article: (typeof articles)[0];
   index: number;
+  expanded: boolean;
+  onToggle: () => void;
 }) {
   const { ref, inView } = useInView(0.08);
 
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className={`service-card p-0 overflow-hidden group ${
+      className={`service-card p-0 overflow-hidden group cursor-pointer ${
         inView
           ? `animate-float-up delay-${((index % 3) + 1) * 100}`
           : "opacity-0"
       }`}
+      onClick={onToggle}
     >
       {/* Date header strip */}
       <div className="px-8 pt-6 pb-4 border-b border-cyan/8 flex items-center justify-between">
@@ -149,6 +204,21 @@ function NewsCard({
           {article.excerpt}
         </p>
 
+        {/* Expanded content */}
+        <div
+          className={`grid transition-all duration-500 ease-in-out ${
+            expanded
+              ? "grid-rows-[1fr] opacity-100 mb-6"
+              : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="text-text-secondary text-sm leading-relaxed whitespace-pre-line border-t border-cyan/8 pt-6">
+              {article.fullContent}
+            </div>
+          </div>
+        </div>
+
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-6">
           {article.tags.map((tag) => (
@@ -158,21 +228,29 @@ function NewsCard({
           ))}
         </div>
 
-        {/* Read more */}
-        <Link
-          href="#"
+        {/* Toggle button */}
+        <button
           className="inline-flex items-center gap-2 text-cyan text-sm font-medium hover:gap-3 transition-all"
           style={{ fontFamily: "var(--font-space-grotesk)" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggle();
+          }}
         >
-          Číst dále
-          <ArrowRight size={14} />
-        </Link>
+          {expanded ? "Skrýt" : "Číst dále"}
+          <ChevronDown
+            size={14}
+            className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
     </div>
   );
 }
 
 export default function AktualityPage() {
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
   return (
     <div className="pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -227,7 +305,17 @@ export default function AktualityPage() {
         {/* Articles grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           {articles.map((article, i) => (
-            <NewsCard key={article.title} article={article} index={i} />
+            <NewsCard
+              key={article.title}
+              article={article}
+              index={i}
+              expanded={expandedId === article.id}
+              onToggle={() =>
+                setExpandedId((prev) =>
+                  prev === article.id ? null : article.id,
+                )
+              }
+            />
           ))}
         </div>
 

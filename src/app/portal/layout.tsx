@@ -1,13 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Activity, Building2, ChevronRight, LogOut, User } from "lucide-react";
+import {
+  Activity,
+  Banknote,
+  BarChart3,
+  Bell,
+  BookOpen,
+  Bot,
+  Building2,
+  Calendar,
+  ChevronRight,
+  FileText,
+  Files,
+  Globe,
+  LayoutDashboard,
+  ListTodo,
+  Home,
+  LogOut,
+  Mail,
+  Menu,
+  MessageSquare,
+  Settings,
+  ShieldAlert,
+  Sparkles,
+  TrendingUp,
+  User,
+  Users,
+  X,
+} from "lucide-react";
 import Logo from "@/components/shared/Logo";
-import KpiCard from "@/components/portal/KpiCard";
+import VoiceWidget from "@/components/erp/VoiceWidget";
 import { AuthProvider, useAuth } from "@/lib/auth/context";
 import { PortalGuard } from "@/lib/auth/guard";
-import type { DemoNavKey } from "@/lib/demo/types";
+import { getNavForRole, type NavItem } from "@/lib/erp/navigation";
+import type { LucideIcon } from "lucide-react";
 
 const labelStyle = {
   fontFamily: "SF Mono, Monaco, Consolas, monospace",
@@ -17,272 +46,277 @@ const labelStyle = {
   color: "rgba(0,229,255,0.72)",
 };
 
-const navKeyToRoute: Record<DemoNavKey, string> = {
-  overview: "/portal/prehled",
-  clients: "/portal/klienti",
-  tasks: "/portal/ukoly",
-  documents: "/portal/dokumenty",
-  automation: "/portal/automatizace",
-  risks: "/portal/rizika",
-  deadlines: "/portal/terminy",
-  recommendations: "/portal/doporuceni",
-  security: "/portal/schvaleni",
+const iconMap: Record<string, LucideIcon> = {
+  dashboard: LayoutDashboard,
+  prehled: LayoutDashboard,
+  klienti: Building2,
+  zamestnanci: Users,
+  ucetnictvi: BookOpen,
+  mzdy: Banknote,
+  "dane-cz": FileText,
+  "dane-de": Globe,
+  dokumenty: Files,
+  komunikace: MessageSquare,
+  email: Mail,
+  automatizace: Bot,
+  rizika: ShieldAlert,
+  terminy: Calendar,
+  reporting: BarChart3,
+  nastaveni: Settings,
+  ukoly: ListTodo,
+  finance: TrendingUp,
+  doporuceni: Sparkles,
 };
 
-function StatusLine({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: string;
-  tone: string;
-}) {
-  return (
-    <div className="flex items-center justify-between rounded-sm border border-cyan-500/10 bg-white/[0.02] px-3 py-2">
-      <span style={{ color: "#7A8A9E" }}>{label}</span>
-      <span className="hud-chip" data-tone={tone}>
-        {value}
-      </span>
-    </div>
-  );
-}
+const roleBadge: Record<string, { label: string; tone: string }> = {
+  owner: { label: "OWNER", tone: "gold" },
+  employee: { label: "EMPLOYEE", tone: "cyan" },
+  client: { label: "CLIENT", tone: "green" },
+};
 
 function PortalShell({ children }: { children: React.ReactNode }) {
-  const { session, logout } = useAuth();
+  const { profile, logout } = useAuth();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (!session) return null;
+  if (!profile) {
+    console.warn(
+      "[PORTAL] ✗ No profile in PortalShell — guard should redirect",
+    );
+    return null;
+  }
 
-  const workspace = session.workspace;
+  const navItems: NavItem[] = getNavForRole(profile.role);
+  const badge = roleBadge[profile.role] || roleBadge.client;
 
-  const summaryBadges = [
-    `${workspace.clients.length} klientů`,
-    `${workspace.tasks.length} otevřených úkolů`,
-    `${workspace.alerts.length} rizik`,
-  ];
+  console.log(
+    `[PORTAL] Rendering: ${profile.name} (${profile.role}), ${navItems.length} nav items, path=${pathname}`,
+  );
+
+  const initials = `${profile.name.split(" ")[0]?.[0] || ""}${profile.surname?.[0]?.toUpperCase() || ""}`;
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "radial-gradient(circle at top right, rgba(0,229,255,0.08), transparent 25%), linear-gradient(180deg, #02060A 0%, #03080D 45%, #081420 100%)",
-      }}
-    >
-      {/* Top header bar */}
-      <header
+    <div className="min-h-screen bg-void flex">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 xl:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed inset-y-0 left-0 z-50 w-[280px] flex flex-col
+          border-r border-cyan-500/10
+          transition-transform duration-300 ease-in-out
+          xl:relative xl:translate-x-0
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
         style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 40,
-          backdropFilter: "blur(22px)",
-          WebkitBackdropFilter: "blur(22px)",
-          background: "rgba(2, 6, 10, 0.82)",
-          borderBottom: "1px solid rgba(0,229,255,0.08)",
+          background:
+            "linear-gradient(180deg, rgba(2,6,10,0.98) 0%, rgba(3,8,13,0.96) 100%)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
         }}
       >
-        <div
-          className="mx-auto flex flex-col gap-4 px-6 py-4 xl:flex-row xl:items-center xl:justify-between"
-          style={{ maxWidth: 1480 }}
-        >
-          <div className="flex flex-wrap items-center gap-4">
-            <Link href="/portal/prehled">
-              <Logo size={40} showText={true} />
-            </Link>
-            <span className="hud-chip" data-tone="cyan">
-              CONTROL CENTER
-            </span>
-            <span
-              className="hud-chip"
-              data-tone={workspace.profile.role === "client" ? "gold" : "green"}
+        {/* Sidebar header */}
+        <div className="flex items-center justify-between px-5 py-5 border-b border-cyan-500/8">
+          <Link href="/portal" onClick={() => setSidebarOpen(false)}>
+            <Logo size={36} showText={true} />
+          </Link>
+          <button
+            className="xl:hidden text-text-muted hover:text-white transition-colors"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Profile section */}
+        <div className="px-5 py-4 border-b border-cyan-500/8">
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-full flex-shrink-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(0,229,255,0.15), rgba(212,175,55,0.1))",
+                border: "2px solid rgba(0,229,255,0.2)",
+                fontFamily: "Space Grotesk, sans-serif",
+                fontSize: "0.85rem",
+                fontWeight: 700,
+                color: "#00E5FF",
+              }}
             >
-              {workspace.profile.title}
+              {initials}
+            </div>
+            <div className="min-w-0">
+              <div
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                }}
+                className="truncate"
+              >
+                {profile.name.split(" ")[0]} {profile.surname}
+              </div>
+              <div className="mt-1">
+                <span className="hud-chip" data-tone={badge.tone}>
+                  {badge.label}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+          {navItems.map((item) => {
+            const route = `/portal/${item.key}`;
+            const isActive =
+              pathname === route || pathname.startsWith(`${route}/`);
+            const Icon = iconMap[item.key] || LayoutDashboard;
+
+            return (
+              <Link
+                key={item.key}
+                href={route}
+                onClick={() => setSidebarOpen(false)}
+                className={`
+                  w-full flex items-center gap-3 px-3 py-2.5 text-[0.88rem] transition-all duration-200
+                  ${
+                    isActive
+                      ? "text-white bg-cyan-500/10 border-l-2 border-cyan-500/60"
+                      : "text-text-secondary hover:text-white hover:bg-white/[0.03] border-l-2 border-transparent"
+                  }
+                `}
+              >
+                <Icon
+                  size={17}
+                  className={isActive ? "text-cyan" : "text-text-muted"}
+                />
+                <span className="flex-1">{item.label}</span>
+                {isActive && (
+                  <ChevronRight size={14} className="text-cyan/50" />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* System status */}
+        <div className="px-5 py-4 border-t border-cyan-500/8">
+          <div className="flex items-center gap-2 mb-3" style={labelStyle}>
+            <Activity size={13} color="#00E5FF" />
+            SYSTEM STATUS
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between px-2 py-1.5">
+              <span style={{ color: "#7A8A9E", fontSize: "0.82rem" }}>
+                Sync
+              </span>
+              <span className="hud-chip" data-tone="green">
+                Live
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2 py-1.5">
+              <span style={{ color: "#7A8A9E", fontSize: "0.82rem" }}>
+                Role
+              </span>
+              <span className="hud-chip" data-tone={badge.tone}>
+                {profile.role}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Back to main site */}
+        <Link
+          href="/"
+          className="mt-4 flex items-center gap-2 px-3 py-2 text-text-muted hover:text-white transition-colors"
+          style={{ fontSize: "0.78rem" }}
+        >
+          <Home size={14} />
+          <span>Zpět na web</span>
+        </Link>
+      </aside>
+
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top bar */}
+        <header
+          className="sticky top-0 z-30 flex items-center justify-between gap-4 px-4 py-3 xl:px-6"
+          style={{
+            background: "rgba(2,6,10,0.85)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            borderBottom: "1px solid rgba(0,229,255,0.08)",
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <button
+              className="xl:hidden text-text-muted hover:text-white transition-colors p-1"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu size={22} />
+            </button>
+            <span className="hud-chip" data-tone={badge.tone}>
+              {profile.title}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {summaryBadges.map((badge) => (
-              <span key={badge} className="hud-chip" data-tone="slate">
-                {badge}
+          <div className="flex items-center gap-3">
+            <button
+              className="relative p-2 text-text-muted hover:text-white transition-colors"
+              title="Notifikace"
+            >
+              <Bell size={19} />
+              <span
+                className="absolute top-1 right-1 w-2 h-2 rounded-full bg-status-red"
+                style={{ boxShadow: "0 0 6px rgba(255,123,123,0.5)" }}
+              />
+            </button>
+
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 border border-cyan-500/8 bg-white/[0.02]">
+              <div
+                className="flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(0,229,255,0.12), rgba(212,175,55,0.08))",
+                  fontFamily: "Space Grotesk, sans-serif",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  color: "#00E5FF",
+                }}
+              >
+                {initials}
+              </div>
+              <span style={{ color: "#B8C1C8", fontSize: "0.82rem" }}>
+                {profile.name.split(" ")[0]} {profile.surname}
               </span>
-            ))}
+            </div>
+
             <Link
               href="/prihlaseni"
-              className="hud-button-secondary"
+              className="hud-button-secondary flex items-center gap-2"
               onClick={logout}
             >
-              Změnit profil
               <LogOut size={15} />
+              <span className="hidden md:inline">Odhlásit</span>
             </Link>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div className="mx-auto w-full px-6 py-6" style={{ maxWidth: 1480 }}>
-        <div className="grid gap-6 xl:grid-cols-12">
-          {/* Sidebar */}
-          <aside className="xl:col-span-3">
-            <div className="hud-panel sticky top-28 p-5">
-              {/* Profile info */}
-              <div className="mb-5 flex items-center gap-3">
-                <div
-                  className="flex h-10 w-10 items-center justify-center"
-                  style={{
-                    border: "1px solid rgba(0,229,255,0.18)",
-                    background: "rgba(0,229,255,0.06)",
-                  }}
-                >
-                  <User size={18} color="#00E5FF" />
-                </div>
-                <div>
-                  <div style={labelStyle}>ACTIVE PROFILE</div>
-                  <div
-                    style={{
-                      color: "#FFFFFF",
-                      fontSize: "1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {workspace.profile.surname}
-                  </div>
-                  <div style={{ color: "#7A8A9E", fontSize: "0.82rem" }}>
-                    {workspace.profile.title}
-                  </div>
-                </div>
-              </div>
-
-              {/* Navigation */}
-              <div className="mb-5 space-y-2">
-                {workspace.nav.map((navItem) => {
-                  const route = navKeyToRoute[navItem.key];
-                  const isActive = pathname === route;
-                  return (
-                    <Link
-                      key={navItem.key}
-                      href={route}
-                      className={`hud-nav-button ${isActive ? "hud-nav-button-active" : ""}`}
-                    >
-                      <span>{navItem.label}</span>
-                      <ChevronRight size={16} />
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* System status */}
-              <div className="border-t border-cyan-500/10 pt-5">
-                <div
-                  className="mb-3 flex items-center gap-2"
-                  style={labelStyle}
-                >
-                  <Activity size={13} color="#00E5FF" />
-                  System status
-                </div>
-                <div className="space-y-2">
-                  <StatusLine label="Sync" value="Live" tone="green" />
-                  <StatusLine
-                    label="Rizika"
-                    value={`${workspace.alerts.length}`}
-                    tone="red"
-                  />
-                  <StatusLine
-                    label="Termíny"
-                    value={`${workspace.deadlines.length}`}
-                    tone="gold"
-                  />
-                </div>
-              </div>
-
-              {/* Mini client list */}
-              <div className="mt-5 border-t border-cyan-500/10 pt-5">
-                <div
-                  className="mb-3 flex items-center gap-2"
-                  style={labelStyle}
-                >
-                  <Building2 size={13} color="#00E5FF" />
-                  Viditelní klienti
-                </div>
-                <div className="space-y-2">
-                  {workspace.clients.map((client) => {
-                    const clientRoute = `/portal/klienti/${client.id}`;
-                    const isClientActive = pathname === clientRoute;
-                    return (
-                      <Link
-                        key={client.id}
-                        href={clientRoute}
-                        className={`hud-mini-client ${isClientActive ? "hud-mini-client-active" : ""}`}
-                      >
-                        <span>{client.name}</span>
-                        <span>{client.nextDeadline}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main content */}
-          <main className="space-y-6 xl:col-span-9">
-            {/* KPI header panel */}
-            <div className="hud-panel p-6 md:p-7">
-              <div className="mb-5 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-                <div>
-                  <div className="mb-3 flex flex-wrap gap-2">
-                    <span className="hud-chip" data-tone="cyan">
-                      {workspace.profile.role === "client"
-                        ? "CLIENT VIEW"
-                        : "EMPLOYEE VIEW"}
-                    </span>
-                  </div>
-                  <h1
-                    style={{
-                      fontFamily: "Space Grotesk, sans-serif",
-                      color: "#FFFFFF",
-                      fontSize: "clamp(2rem, 3vw, 3.2rem)",
-                      lineHeight: 1.06,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {workspace.headline}
-                  </h1>
-                  <p
-                    style={{
-                      color: "#B8C1C8",
-                      maxWidth: 900,
-                      lineHeight: 1.74,
-                    }}
-                  >
-                    {workspace.helperText}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  <span className="hud-chip" data-tone="green">
-                    24/7 orchestrace
-                  </span>
-                  <span className="hud-chip" data-tone="cyan">
-                    Role-based data
-                  </span>
-                  <span className="hud-chip" data-tone="gold">
-                    Human approval gates
-                  </span>
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                {workspace.kpis.map((kpi) => (
-                  <KpiCard key={kpi.label} kpi={kpi} />
-                ))}
-              </div>
-            </div>
-
-            {/* Page content */}
-            {children}
-          </main>
-        </div>
+        {/* Page content */}
+        <main className="flex-1 p-4 xl:p-6 overflow-auto">{children}</main>
       </div>
+
+      {/* Voice AI widget — outbound calls for owner/employee */}
+      {(profile.role === "owner" || profile.role === "employee") && (
+        <VoiceWidget />
+      )}
     </div>
   );
 }
