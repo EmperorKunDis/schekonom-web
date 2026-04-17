@@ -64,6 +64,7 @@ export const section22Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-02", "22-03", "10-01", "7-01"],
     businessImpact: "Kritický — timing je klíčový pro úspěšnou retenci",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "22-02",
@@ -129,6 +130,7 @@ export const section22Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-01", "22-03", "10-01", "15-01"],
     businessImpact: "Kritický — optimalizace retention investic",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "22-03",
@@ -194,6 +196,7 @@ export const section22Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-01", "22-02", "17-01", "17-04"],
     businessImpact: "Střední — efektivita komunikace a produktivita týmu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "22-04",
@@ -260,6 +263,7 @@ export const section22Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-01", "22-02", "15-03", "9-01"],
     businessImpact: "Kritický — pricing strategie a revenue optimization",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "22-05",
@@ -325,5 +329,6 @@ export const section22Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-01", "19-01", "19-04", "13-06"],
     businessImpact: "Vysoký — příprava na ownership change",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

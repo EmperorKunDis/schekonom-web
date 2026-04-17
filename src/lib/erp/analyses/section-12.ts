@@ -65,6 +65,7 @@ export const section12Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["12-02", "12-04", "9-01", "16-01"],
     businessImpact: "Vysoký — efektivita obsluhy a spokojenost klientů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "12-02",
@@ -130,6 +131,7 @@ export const section12Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-02", "9-05", "12-03"],
     businessImpact: "Vysoký — strategický input pro business",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "12-03",
@@ -191,6 +193,7 @@ export const section12Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-01", "9-04", "12-02"],
     businessImpact: "Kritický — direct churn predictor",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "12-04",
@@ -256,5 +259,6 @@ export const section12Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "10-09", "12-01"],
     businessImpact: "Vysoký — strategická hodnota pro klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

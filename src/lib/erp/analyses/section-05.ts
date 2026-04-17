@@ -66,6 +66,7 @@ export const section05Analyses: AnalysisDetail[] = [
     businessImpact:
       "Kritický — přímý finanční dopad na klienty v řádu stovek tisíc Kč",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "5-02",
@@ -127,6 +128,7 @@ export const section05Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["2-05", "5-03"],
     businessImpact: "Kritický — vysoké riziko doměrku",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "5-03",
@@ -188,6 +190,7 @@ export const section05Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-04", "5-06", "1-08"],
     businessImpact: "Kritický — vysoké finanční dopady",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "5-04",
@@ -244,6 +247,7 @@ export const section05Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-03", "1-05", "5-06"],
     businessImpact: "Kritický — prevence exekuce",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "5-05",
@@ -305,6 +309,7 @@ export const section05Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-02", "10-07", "1-02"],
     businessImpact: "Kritický — rozhodování o transakcích",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "5-06",
@@ -366,5 +371,6 @@ export const section05Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-03", "5-04", "5-02"],
     businessImpact: "Vysoký — prevence finančních škod",
     implementationStatus: "Pilot",
+    scope: "client",
   },
 ];

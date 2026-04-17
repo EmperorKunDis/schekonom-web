@@ -63,6 +63,7 @@ export const section17Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-02", "17-03", "7-04", "10-01"],
     businessImpact: "Střední — doplňkový signál pro churn prediction",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "17-02",
@@ -128,6 +129,7 @@ export const section17Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-01", "17-03", "17-04", "22-03"],
     businessImpact: "Střední — optimalizace obchodního procesu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "17-03",
@@ -194,6 +196,7 @@ export const section17Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-01", "17-02", "23-40", "10-01"],
     businessImpact: "Střední — validace hodnoty služeb pro klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "17-04",
@@ -261,6 +264,7 @@ export const section17Analyses: AnalysisDetail[] = [
     businessImpact:
       "Nízký–Střední — optimalizace komunikačního kanálu a timingu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "17-05",
@@ -326,5 +330,6 @@ export const section17Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-01", "17-04", "18-01", "18-03"],
     businessImpact: "Střední — zajištění efektivní komunikace s rozhodovately",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

@@ -63,6 +63,7 @@ export const section15Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-02", "15-03", "7-01", "17-01"],
     businessImpact: "Střední — optimalizace komunikační strategie",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "15-02",
@@ -129,6 +130,7 @@ export const section15Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-01", "15-03", "15-04", "13-04"],
     businessImpact: "Střední — optimalizace rollout strategie",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "15-03",
@@ -196,6 +198,7 @@ export const section15Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-01", "15-02", "10-01", "22-04"],
     businessImpact: "Vysoký — pricing a retention strategie",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "15-04",
@@ -262,5 +265,6 @@ export const section15Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-01", "15-02", "7-01", "10-01"],
     businessImpact: "Vysoký — krizová komunikace a prevence eskalací",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

@@ -65,6 +65,7 @@ export const section21Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["21-02", "21-03", "21-04", "2-01"],
     businessImpact: "Kritický — finanční řízení klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "21-02",
@@ -130,6 +131,7 @@ export const section21Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["21-01", "21-03", "1-03", "1-04"],
     businessImpact: "Kritický — prevence platební neschopnosti",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "21-03",
@@ -196,6 +198,7 @@ export const section21Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["21-01", "21-02", "21-04", "2-01"],
     businessImpact: "Vysoký — přímý finanční dopad pro klienty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "21-04",
@@ -262,5 +265,6 @@ export const section21Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["21-01", "21-02", "21-03", "2-01"],
     businessImpact: "Vysoký — strategické řízení klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

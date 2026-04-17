@@ -1,0 +1,24 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "sch-ekonom",
+	"compatibility_date": "2026-04-16",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"workers_dev": true,
+	"routes": [
+		{
+			"pattern": "sch.praut.cz/*",
+			"zone_id": "11d1d9d904a74524a72f09b0fc93a095"
+		}
+	],
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "sch-ekonom"
+		}
+	]
+}

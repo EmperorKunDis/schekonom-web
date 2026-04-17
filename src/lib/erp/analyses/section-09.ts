@@ -65,6 +65,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-02", "9-03", "9-06", "9-07"],
     businessImpact: "Kritický — řízení portfolia klientů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "9-02",
@@ -126,6 +127,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "9-07", "11-09"],
     businessImpact: "Kritický — identifikace ztrátových klientů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "9-03",
@@ -190,6 +192,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-04", "9-01", "10-03", "10-09"],
     businessImpact: "Kritický — cashflow a kreditní riziko",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "9-04",
@@ -255,6 +258,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "9-05", "10-01", "12-02"],
     businessImpact: "Vysoký — podpora pricing rozhodnutí",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "9-05",
@@ -319,6 +323,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "9-04", "12-03"],
     businessImpact: "Vysoký — indikátor value perception a churn",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "9-06",
@@ -383,6 +388,7 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "12-01", "16-01"],
     businessImpact: "Vysoký — revenue expansion",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "9-07",
@@ -447,5 +453,6 @@ export const section09Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "9-02", "9-06", "12-01"],
     businessImpact: "Kritický — portfolio rentability",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

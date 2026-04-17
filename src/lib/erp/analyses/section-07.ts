@@ -66,6 +66,7 @@ export const section07Analyses: AnalysisDetail[] = [
     businessImpact:
       "Vysoký — včasná detekce nespokojenosti zabrání odchodu klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-02",
@@ -131,6 +132,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-03", "7-09", "12-02"],
     businessImpact: "Vysoký — indikátor typu vztahu s klientem",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-03",
@@ -195,6 +197,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-02", "7-06", "10-01"],
     businessImpact: "Kritický — predikce akutního churn rizika",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-04",
@@ -256,6 +259,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-06", "7-10", "10-01"],
     businessImpact: "Vysoký — klíčový prediktor tichého odchodu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-05",
@@ -317,6 +321,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-04", "7-06", "11-07"],
     businessImpact: "Střední — operativní efektivita + compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-06",
@@ -381,6 +386,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-05", "11-01", "11-09"],
     businessImpact: "Vysoký — přímý driver NPS a retence",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-07",
@@ -442,6 +448,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-04", "10-01"],
     businessImpact: "Vysoký — behaviorální mikrosignál churn",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "7-08",
@@ -503,6 +510,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-03", "10-01", "10-09"],
     businessImpact: "Střední — indikátor celkového stavu klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-09",
@@ -567,6 +575,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-02", "11-02", "11-07"],
     businessImpact: "Vysoký — hlavní driver eskalací a churn",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-10",
@@ -628,6 +637,7 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-04", "7-11", "10-01"],
     businessImpact: "Vysoký — prediktor odchodu při 2+ zrušeních",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "7-11",
@@ -693,5 +703,6 @@ export const section07Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-05", "7-10", "12-01"],
     businessImpact: "Střední — dopad na škálovatelnost kanceláře",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

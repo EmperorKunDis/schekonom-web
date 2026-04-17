@@ -27,6 +27,7 @@ export interface AnalysisDetail {
   relatedAnalyses: string[];
   businessImpact: string;
   implementationStatus: string;
+  scope?: "client" | "internal";
 }
 
 export interface ShortAnalysis {
@@ -37,4 +38,5 @@ export interface ShortAnalysis {
   source: string;
   good: string;
   bad: string;
+  scope?: "client" | "internal";
 }

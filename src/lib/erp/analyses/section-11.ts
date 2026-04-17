@@ -64,6 +64,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-03", "11-05", "11-09", "11-10"],
     businessImpact: "Vysoký — SLA = spokojenost klienta = retence",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-02",
@@ -125,6 +126,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-09", "11-07", "11-09"],
     businessImpact: "Vysoký — process quality a client satisfaction",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-03",
@@ -186,6 +188,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-01", "11-05", "11-08", "11-09"],
     businessImpact: "Vysoký — přímý dopad na SLA",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-04",
@@ -247,6 +250,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-05", "11-06"],
     businessImpact: "Vysoký — kapacitní plánování",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-05",
@@ -308,6 +312,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-04", "11-06"],
     businessImpact: "Vysoký — kapacitní rozhodnutí",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-06",
@@ -369,6 +374,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-05", "11-07"],
     businessImpact: "Vysoký — prevence ztráty klíčových lidí",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-07",
@@ -430,6 +436,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-07", "11-02", "11-06"],
     businessImpact: "Vysoký — riziko reputace + penalties klientů",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-08",
@@ -494,6 +501,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-08", "11-03", "11-09"],
     businessImpact: "Vysoký — cost-to-serve driver",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-09",
@@ -555,6 +563,7 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-01", "11-03", "11-08", "11-10"],
     businessImpact: "Vysoký — přímý vliv na CX",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "11-10",
@@ -616,5 +625,6 @@ export const section11Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["11-03", "11-09"],
     businessImpact: "Kritický — blokuje základní služby",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
 ];

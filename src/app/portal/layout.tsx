@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
@@ -23,16 +23,19 @@ import {
   Mail,
   Menu,
   MessageSquare,
+  Search,
   Settings,
   ShieldAlert,
   Sparkles,
   TrendingUp,
-  User,
   Users,
   X,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 import VoiceWidget from "@/components/erp/VoiceWidget";
+import AiChat from "@/components/erp/AiChat";
+import CommandPalette from "@/components/portal/CommandPalette";
+import LiveNotifications from "@/components/portal/LiveNotifications";
 import { AuthProvider, useAuth } from "@/lib/auth/context";
 import { PortalGuard } from "@/lib/auth/guard";
 import { getNavForRole, type NavItem } from "@/lib/erp/navigation";
@@ -78,6 +81,20 @@ function PortalShell({ children }: { children: React.ReactNode }) {
   const { profile, logout } = useAuth();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
+
+  const openCmd = useCallback(() => setCmdOpen(true), []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setCmdOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   if (!profile) {
     console.warn(
@@ -269,6 +286,31 @@ function PortalShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-3">
             <button
+              onClick={openCmd}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 text-text-muted hover:text-white transition-colors"
+              style={{
+                border: "1px solid rgba(0,229,255,0.1)",
+                background: "rgba(0,229,255,0.03)",
+                fontSize: "0.78rem",
+              }}
+              title="Hledat (⌘K)"
+            >
+              <Search size={14} />
+              <span>Hledat</span>
+              <span
+                style={{
+                  fontFamily: "SF Mono, Monaco, Consolas, monospace",
+                  fontSize: "0.6rem",
+                  color: "rgba(0,229,255,0.4)",
+                  letterSpacing: "0.05em",
+                  marginLeft: 4,
+                }}
+              >
+                ⌘K
+              </span>
+            </button>
+
+            <button
               className="relative p-2 text-text-muted hover:text-white transition-colors"
               title="Notifikace"
             >
@@ -317,6 +359,15 @@ function PortalShell({ children }: { children: React.ReactNode }) {
       {(profile.role === "owner" || profile.role === "employee") && (
         <VoiceWidget />
       )}
+
+      {/* AI Chat assistant — owner/employee only */}
+      <AiChat />
+
+      {/* Live notifications */}
+      <LiveNotifications />
+
+      {/* Global command palette (⌘K) */}
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
     </div>
   );
 }

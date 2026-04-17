@@ -64,6 +64,7 @@ export const section16Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["16-02", "16-03", "9-06", "12-01"],
     businessImpact: "Vysoký — retence a revenue optimalizace",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "16-02",
@@ -129,6 +130,7 @@ export const section16Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["16-01", "16-03", "16-04", "12-01"],
     businessImpact: "Vysoký — upsell a revenue growth",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "16-03",
@@ -195,6 +197,7 @@ export const section16Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["16-01", "16-02", "16-04", "12-01"],
     businessImpact: "Vysoký — prediktivní upsell",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "16-04",
@@ -261,5 +264,6 @@ export const section16Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["16-01", "16-02", "16-03", "15-01"],
     businessImpact: "Vysoký — konverze upsell příležitostí",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

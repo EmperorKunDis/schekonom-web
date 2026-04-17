@@ -62,6 +62,7 @@ export const section13Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-02", "13-05", "7-01", "10-01"],
     businessImpact: "Vysoký — pochopení příčin změn v chování klientů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-02",
@@ -128,6 +129,7 @@ export const section13Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-01", "13-05", "10-01", "7-01"],
     businessImpact: "Vysoký — včasná detekce úpadku vztahu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-03",
@@ -194,6 +196,7 @@ export const section13Analyses: AnalysisDetail[] = [
     businessImpact:
       "Střední — prevence falešných poplachů a detekce skutečných anomálií",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-04",
@@ -259,6 +262,7 @@ export const section13Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-03", "19-06", "4-01", "5-01"],
     businessImpact: "Vysoký — prevence compliance pokut a doměrků",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-05",
@@ -324,6 +328,7 @@ export const section13Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-01", "13-02", "13-06", "10-01"],
     businessImpact: "Vysoký — detekce neviditelných dlouhodobých trendů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-06",
@@ -390,6 +395,7 @@ export const section13Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-01", "13-02", "18-01", "19-01"],
     businessImpact: "Vysoký — generační změna = kritický bod pro retenci",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "13-07",
@@ -456,5 +462,6 @@ export const section13Analyses: AnalysisDetail[] = [
     businessImpact:
       "Střední — ochrana proti manipulaci a budování znalostní báze",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

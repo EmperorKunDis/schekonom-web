@@ -63,6 +63,7 @@ export const section18Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["18-02", "18-03", "7-01", "13-01"],
     businessImpact: "Střední — dopad na efektivitu spolupráce",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "18-02",
@@ -128,6 +129,7 @@ export const section18Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["18-01", "18-03", "15-04", "7-01"],
     businessImpact: "Střední — prevence chyb z rozporných instrukcí",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "18-03",
@@ -193,6 +195,7 @@ export const section18Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["18-01", "18-02", "18-04", "15-01"],
     businessImpact: "Vysoký — compliance a právní riziko",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "18-04",
@@ -258,5 +261,6 @@ export const section18Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["18-01", "18-03", "19-01", "13-06"],
     businessImpact: "Vysoký — právní validita dokumentů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

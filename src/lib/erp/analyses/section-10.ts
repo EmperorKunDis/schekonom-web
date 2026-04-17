@@ -66,6 +66,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-02", "22-01", "22-02", "7-01"],
     businessImpact: "Kritický — prevence ztráty revenue",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-02",
@@ -128,6 +129,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-01", "7-01", "7-04", "9-03"],
     businessImpact: "Kritický — nejranější detekce problému",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-03",
@@ -189,6 +191,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-04", "10-09", "19-05"],
     businessImpact: "Vysoký — ochrana klientských pohledávek",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-04",
@@ -251,6 +254,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-05", "10-08", "11-08"],
     businessImpact: "Kritický — přímá finanční ochrana",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-05",
@@ -312,6 +316,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-04", "10-06", "10-08"],
     businessImpact: "Kritický — prevence přímých ztrát",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-06",
@@ -373,6 +378,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-04", "10-05", "10-07"],
     businessImpact: "Kritický — AML zákonná povinnost",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-07",
@@ -434,6 +440,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-11", "19-07"],
     businessImpact: "Kritický — zákonná povinnost klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-08",
@@ -495,6 +502,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-04", "10-05", "11-08"],
     businessImpact: "Kritický — detekce invoice fraud",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-09",
@@ -557,6 +565,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "1-03", "9-03", "10-03"],
     businessImpact: "Kritický — včasné varování insolvence",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-10",
@@ -618,6 +627,7 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-11", "11-07"],
     businessImpact: "Kritický — GDPR compliance + konkurenční data",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "10-11",
@@ -679,5 +689,6 @@ export const section10Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-07", "10-10"],
     businessImpact: "Kritický — EU AI Act deadline 2.8.2026",
     implementationStatus: "V přípravě",
+    scope: "client",
   },
 ];

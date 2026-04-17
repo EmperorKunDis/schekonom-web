@@ -64,6 +64,7 @@ export const section06Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["6-04", "10-06", "19-01", "1-05"],
     businessImpact: "Kritický — ochrana před ručením za DPH v řádu milionů Kč",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "6-02",
@@ -125,6 +126,7 @@ export const section06Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["6-01", "6-03"],
     businessImpact: "Kritický — 2028 povinnost",
     implementationStatus: "Roadmap",
+    scope: "client",
   },
   {
     id: "6-03",
@@ -181,6 +183,7 @@ export const section06Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["6-01", "6-02", "11-08"],
     businessImpact: "Vysoký — efektivita + ViDA",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "6-04",
@@ -242,5 +245,6 @@ export const section06Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["6-01", "1-05"],
     businessImpact: "Vysoký — compliance + vztahy s klienty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

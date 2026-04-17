@@ -64,6 +64,7 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-02", "20-04", "20-05", "20-06"],
     businessImpact: "Kritický — výpadek certifikátu blokuje klíčové služby",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "20-02",
@@ -129,6 +130,7 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-01", "20-04", "20-06", "5-01"],
     businessImpact: "Vysoký — certifikáty blokují podání",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "20-03",
@@ -194,6 +196,7 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-01", "20-02", "20-04", "20-05"],
     businessImpact: "Střední — bezpečnost a důvěra klientských webů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "20-04",
@@ -259,6 +262,7 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-01", "20-02", "20-06", "17-01"],
     businessImpact: "Vysoký — prevence výpadků služby",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "20-05",
@@ -324,6 +328,7 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-01", "20-03", "18-04", "23-15"],
     businessImpact: "Kritický — ochrana před zneužitím identity",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "20-06",
@@ -389,5 +394,6 @@ export const section20Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["20-01", "20-04", "17-01", "23-42"],
     businessImpact: "Kritický — poslední záchrana před výpadkem",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

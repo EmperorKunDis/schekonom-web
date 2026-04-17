@@ -111,6 +111,8 @@ export default function KontaktPage() {
     service: "",
     message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -120,9 +122,23 @@ export default function KontaktPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Děkujeme za zprávu! Ozveme se vám do 24 hodin v pracovních dnech.");
+    setSending(true);
+    // Simulate network delay for realism
+    await new Promise((r) => setTimeout(r, 900));
+    setSending(false);
+    setSubmitted(true);
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      service: "",
+      message: "",
+    });
+    // Auto-hide after 6s
+    setTimeout(() => setSubmitted(false), 6000);
   };
 
   return (
@@ -502,11 +518,65 @@ export default function KontaktPage() {
 
                 <button
                   type="submit"
+                  disabled={sending}
                   className="btn-primary w-full justify-center"
+                  style={{ opacity: sending ? 0.7 : 1 }}
                 >
-                  <Send size={16} />
-                  Odeslat zprávu
+                  <Send
+                    size={16}
+                    style={{
+                      animation: sending ? "spin 1s linear infinite" : "none",
+                    }}
+                  />
+                  {sending ? "Odesílám..." : "Odeslat zprávu"}
                 </button>
+
+                {submitted && (
+                  <div
+                    className="flex items-start gap-3 p-4"
+                    style={{
+                      background: "rgba(0,229,160,0.08)",
+                      border: "1px solid rgba(0,229,160,0.3)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 28,
+                        height: 28,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "rgba(0,229,160,0.15)",
+                        border: "1px solid rgba(0,229,160,0.3)",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Send size={13} style={{ color: "#00E5A0" }} />
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          color: "#00E5A0",
+                          fontWeight: 600,
+                          fontSize: "0.88rem",
+                          marginBottom: 3,
+                        }}
+                      >
+                        Zpráva odeslána
+                      </div>
+                      <div
+                        style={{
+                          color: "#B8C1C8",
+                          fontSize: "0.8rem",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        Děkujeme za váš zájem. Ozveme se do 24 hodin v
+                        pracovních dnech.
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <p
                   className="text-text-muted text-center"

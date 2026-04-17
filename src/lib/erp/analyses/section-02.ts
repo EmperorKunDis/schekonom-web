@@ -65,6 +65,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["2-02", "2-04", "2-06", "1-02"],
     businessImpact: "Vysoký — řízení nákladů a ziskovosti",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-02",
@@ -126,6 +127,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["2-01", "2-06", "11-05"],
     businessImpact: "Vysoký — kvalita strategických rozhodnutí",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-03",
@@ -187,6 +189,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "11-10"],
     businessImpact: "Střední — zkreslení účetních výkazů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-04",
@@ -248,6 +251,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "9-07", "2-01"],
     businessImpact: "Vysoký — priorizace portfolia",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-05",
@@ -309,6 +313,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-02", "2-04"],
     businessImpact: "Vysoký — TP riziko + reporting",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-06",
@@ -370,6 +375,7 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-03", "1-04", "2-02"],
     businessImpact: "Kritický — přežití firmy",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "2-07",
@@ -431,5 +437,6 @@ export const section02Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["9-01", "9-02", "9-07"],
     businessImpact: "Vysoký — portfolio optimalizace",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

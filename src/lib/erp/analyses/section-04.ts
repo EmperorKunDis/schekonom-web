@@ -65,6 +65,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-02", "4-04", "4-11", "5-01"],
     businessImpact: "Vysoký — přímý finanční dopad na klienty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-02",
@@ -126,6 +127,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-01", "4-08", "4-09"],
     businessImpact: "Vysoký — přímá finanční úspora",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-03",
@@ -190,6 +192,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-01", "4-07"],
     businessImpact: "Vysoký — benefit pro zaměstnance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-04",
@@ -246,6 +249,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-05", "4-06"],
     businessImpact: "Kritický — compliance + pokuty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-05",
@@ -307,6 +311,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-04", "4-11"],
     businessImpact: "Vysoký — compliance stavebního sektoru",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-06",
@@ -368,6 +373,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-11", "4-04"],
     businessImpact: "Vysoký — cash flow (srážka 15 %)",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-07",
@@ -429,6 +435,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-02", "4-08"],
     businessImpact: "Střední — přímé finanční dopady",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-08",
@@ -490,6 +497,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-01", "4-02"],
     businessImpact: "Vysoký — přímá finanční hodnota klientům",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-09",
@@ -551,6 +559,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-02", "4-08"],
     businessImpact: "Vysoký — přímé odpočty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-10",
@@ -612,6 +621,7 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-01", "4-02"],
     businessImpact: "Vysoký — významná úspora pro klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "4-11",
@@ -673,5 +683,6 @@ export const section04Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["4-02", "4-08"],
     businessImpact: "Kritický — bez certifikátu nelze podávat",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

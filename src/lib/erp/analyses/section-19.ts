@@ -63,6 +63,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-02", "19-08", "10-03", "6-01"],
     businessImpact: "Vysoký — ochrana před podvody a ručením",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-02",
@@ -128,6 +129,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "19-08", "14-04", "1-04"],
     businessImpact: "Kritický — ochrana pohledávek a compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-03",
@@ -193,6 +195,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "19-04", "10-01", "16-01"],
     businessImpact: "Vysoký — včasná detekce insourcing rizika",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-04",
@@ -259,6 +262,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "19-03", "19-06", "7-01"],
     businessImpact: "Střední — proaktivní vztah management",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-05",
@@ -325,6 +329,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "19-04", "21-02", "2-01"],
     businessImpact: "Střední — predikce obratu a kapacitní plánování",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-06",
@@ -390,6 +395,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-04", "19-01", "4-01", "5-01"],
     businessImpact: "Vysoký — compliance a přidaná hodnota pro klienty",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-07",
@@ -455,6 +461,7 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "5-01", "21-02", "4-01"],
     businessImpact: "Střední–Vysoký — kurzový dopad na pendlery a exportéry",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "19-08",
@@ -520,5 +527,6 @@ export const section19Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-01", "19-02", "1-01", "4-01"],
     businessImpact: "Vysoký — compliance a reputace klientů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

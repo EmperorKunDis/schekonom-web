@@ -64,6 +64,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-02", "23-05", "11-09", "11-07"],
     businessImpact: "Střední — procesní efektivita a spokojenost klienta",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-02",
@@ -127,6 +128,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-01", "23-05", "11-09"],
     businessImpact: "Střední — efektivita zpracování a kvalita podkladů",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-03",
@@ -190,6 +192,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-01", "23-05", "11-07"],
     businessImpact: "Nízký — volitelná optimalizace procesů",
     implementationStatus: "Pilot",
+    scope: "internal",
   },
   {
     id: "23-04",
@@ -250,6 +253,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-01", "23-05", "23-29"],
     businessImpact: "Střední — kvalita služby a interní férovost",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-05",
@@ -313,6 +317,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-04", "23-29", "23-32"],
     businessImpact: "Střední — interní efektivita a férovost",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-06",
@@ -376,6 +381,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-52", "16-01", "16-02"],
     businessImpact: "Střední — upsell příležitost + efektivita",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-07",
@@ -439,6 +445,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-01", "17-01", "22-03"],
     businessImpact: "Střední — optimalizace komunikačního timingu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-08",
@@ -499,6 +506,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-10", "23-07", "15-01"],
     businessImpact: "Nízký — early warning indikátor",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-09",
@@ -562,6 +570,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-08", "23-10", "23-07", "15-01"],
     businessImpact: "Nízký — early warning indikátor vztahu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-10",
@@ -626,6 +635,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-08", "23-09", "15-01"],
     businessImpact: "Nízký — relationship quality indikátor",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-11",
@@ -686,6 +696,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-08", "23-10", "18-01"],
     businessImpact: "Nízký — relationship personalization indikátor",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-12",
@@ -749,6 +760,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-08", "23-13", "15-01"],
     businessImpact: "Nízký — wellbeing indikátor klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-13",
@@ -809,6 +821,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-07", "23-12", "15-04"],
     businessImpact: "Vysoký — okamžitý indikátor klientské krize",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-14",
@@ -869,6 +882,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-16", "23-17", "18-01"],
     businessImpact: "Střední — early detection reorganizace klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-15",
@@ -929,6 +943,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-14", "23-20", "17-04"],
     businessImpact: "Střední — wellbeing a finanční zdraví klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-16",
@@ -992,6 +1007,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-17", "23-18", "23-44"],
     businessImpact: "Vysoký — compliance a fraud detection",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-17",
@@ -1052,6 +1068,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-16", "23-18", "1-01"],
     businessImpact: "Střední — efektivita párování plateb",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-18",
@@ -1112,6 +1129,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-16", "23-19", "1-01", "1-05"],
     businessImpact: "Vysoký — fraud detection a compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-19",
@@ -1172,6 +1190,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-18", "23-25", "14-04", "19-01"],
     businessImpact: "Vysoký — fraud detection",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-20",
@@ -1236,6 +1255,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-04", "21-02", "23-15"],
     businessImpact: "Vysoký — predikce finanční tísně",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-21",
@@ -1296,6 +1316,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-22", "23-23", "23-24"],
     businessImpact: "Vysoký — daňová compliance pendlerů",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-22",
@@ -1356,6 +1377,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-21", "23-24", "23-37"],
     businessImpact: "Vysoký — pendler compliance (183-day rule)",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-23",
@@ -1416,6 +1438,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-21", "23-22", "23-24"],
     businessImpact: "Střední — daňová compliance firemní vozidla",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-24",
@@ -1479,6 +1502,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-21", "23-22", "23-32"],
     businessImpact: "Vysoký — mzdová a daňová compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-25",
@@ -1542,6 +1566,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-26", "14-01", "14-04"],
     businessImpact: "Vysoký — fraud detection a compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-26",
@@ -1605,6 +1630,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-25", "14-01", "14-03"],
     businessImpact: "Kritický — carousel fraud detection",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-27",
@@ -1665,6 +1691,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-28", "14-03", "14-05"],
     businessImpact: "Vysoký — pracovněprávní a daňová compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-28",
@@ -1725,6 +1752,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-27", "14-01", "19-01"],
     businessImpact: "Střední — AML/KYC compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-29",
@@ -1785,6 +1813,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-04", "23-05", "23-30"],
     businessImpact: "Střední — interní performance management",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-30",
@@ -1848,6 +1877,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-29", "23-46", "23-32"],
     businessImpact: "Střední — quality management",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-31",
@@ -1911,6 +1941,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-29", "23-30", "16-01"],
     businessImpact: "Vysoký — profitabilita kanceláře",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-32",
@@ -1974,6 +2005,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-05", "23-46", "23-48"],
     businessImpact: "Střední — employee wellbeing a retention",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-33",
@@ -2037,6 +2069,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-31", "23-35", "16-02"],
     businessImpact: "Střední — service efficiency a pricing",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-34",
@@ -2100,6 +2133,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["22-01", "22-02", "10-01"],
     businessImpact: "Vysoký — meta-improvement churn detection",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-35",
@@ -2160,6 +2194,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-03", "23-06", "11-07"],
     businessImpact: "Střední — knowledge management efficiency",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-36",
@@ -2223,6 +2258,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-37", "23-07", "22-03"],
     businessImpact: "Nízký — marginální optimalizace komunikace",
     implementationStatus: "Experiment",
+    scope: "client",
   },
   {
     id: "23-37",
@@ -2287,6 +2323,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-22", "23-24", "13-03"],
     businessImpact: "Vysoký — A1/pendler compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-38",
@@ -2350,6 +2387,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["19-06", "13-04", "23-07"],
     businessImpact: "Střední — proactive service quality",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-39",
@@ -2413,6 +2451,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["15-04", "23-13", "22-02"],
     businessImpact: "Vysoký — relationship damage control",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-40",
@@ -2476,6 +2515,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-03", "23-42", "10-01"],
     businessImpact: "Vysoký — engagement a retention",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-41",
@@ -2536,6 +2576,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-42", "23-40", "10-01"],
     businessImpact: "Střední — early warning klientského problému",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-42",
@@ -2596,6 +2637,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-41", "23-40", "10-01", "22-01"],
     businessImpact: "Kritický — churn detection",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-43",
@@ -2656,6 +2698,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["16-02", "16-04", "23-31"],
     businessImpact: "Střední — upsell identifikace",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-44",
@@ -2716,6 +2759,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-16", "23-18", "1-07"],
     businessImpact: "Vysoký — zákonná compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-45",
@@ -2776,6 +2820,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-46", "23-30", "23-48"],
     businessImpact: "Vysoký — team health → service quality",
     implementationStatus: "Pilot",
+    scope: "internal",
   },
   {
     id: "23-46",
@@ -2838,6 +2883,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-30", "23-32", "23-45"],
     businessImpact: "Vysoký — employee retention a service quality",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-47",
@@ -2901,6 +2947,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-48", "14-05", "23-45"],
     businessImpact: "Střední — knowledge management a resilience",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-48",
@@ -2961,6 +3008,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-47", "14-05", "23-32"],
     businessImpact: "Kritický — operational resilience",
     implementationStatus: "Produkce",
+    scope: "internal",
   },
   {
     id: "23-49",
@@ -3026,6 +3074,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-50", "23-51", "19-06"],
     businessImpact: "Střední — strategic positioning a upsell",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-50",
@@ -3091,6 +3140,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-49", "23-51", "19-06"],
     businessImpact: "Střední — premium consulting opportunity",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-51",
@@ -3154,6 +3204,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-06", "23-52", "16-02"],
     businessImpact: "Střední — upsell a customer satisfaction",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-52",
@@ -3217,6 +3268,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["23-06", "23-51", "23-14"],
     businessImpact: "Střední — archival compliance a upsell",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-53",
@@ -3280,6 +3332,7 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["13-06", "18-01", "23-54"],
     businessImpact: "Střední — relationship management a upsell",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "23-54",
@@ -3343,5 +3396,6 @@ export const section23Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["17-04", "23-53", "15-01"],
     businessImpact: "Nízký — komunikační optimalizace",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

@@ -65,6 +65,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "1-03", "1-07", "1-09"],
     businessImpact: "Kritický — základ pro správnost celého účetnictví",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-02",
@@ -131,6 +132,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-01", "1-03", "1-08"],
     businessImpact: "Kritický — základní výkazy pro stakeholdery",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-03",
@@ -197,6 +199,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "2-06", "10-09"],
     businessImpact: "Kritický — přímý ukazatel platební schopnosti",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-04",
@@ -261,6 +264,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-03", "9-03", "10-09"],
     businessImpact: "Vysoký — přímý dopad na likviditu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-05",
@@ -325,6 +329,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["6-01", "6-04", "5-04"],
     businessImpact: "Kritický — zákonná povinnost + penalizace",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-06",
@@ -386,6 +391,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-02", "1-03"],
     businessImpact: "Střední — u exportérů vysoký",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-07",
@@ -447,6 +453,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-01", "11-07", "10-04"],
     businessImpact: "Kritický — compliance a detekce fraudu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-08",
@@ -511,6 +518,7 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["5-01", "5-06", "1-02"],
     businessImpact: "Vysoký — přímý finanční dopad",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "1-09",
@@ -572,5 +580,6 @@ export const section01Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["1-01", "1-07"],
     businessImpact: "Kritický — zákonná povinnost",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

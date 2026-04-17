@@ -60,6 +60,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-02", "8-06", "7-01", "7-03"],
     businessImpact: "Střední — doplňkový indikátor emocionálního stavu",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "8-02",
@@ -121,6 +122,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-01", "8-06", "7-01", "7-08"],
     businessImpact: "Střední — včasná detekce well-being klienta",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "8-03",
@@ -185,6 +187,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-04", "8-05", "7-02"],
     businessImpact: "Střední — kvalita vzájemného porozumění",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "8-04",
@@ -249,6 +252,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-03", "8-08", "7-01", "10-01"],
     businessImpact: "Střední — prediktor strategických změn klienta",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "8-05",
@@ -310,6 +314,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-01", "8-03", "8-07"],
     businessImpact: "Nízký — operativní efektivita",
     implementationStatus: "V přípravě",
+    scope: "client",
   },
   {
     id: "8-06",
@@ -371,6 +376,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["7-01", "7-03", "8-01"],
     businessImpact: "Vysoký — detekce skrytých problémů",
     implementationStatus: "Beta",
+    scope: "client",
   },
   {
     id: "8-07",
@@ -432,6 +438,7 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-05", "8-08", "10-01"],
     businessImpact: "Vysoký — prediktor strategické změny klienta",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "8-08",
@@ -496,5 +503,6 @@ export const section08Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["8-04", "8-07", "12-01"],
     businessImpact: "Vysoký — efektivita retence a upsellu",
     implementationStatus: "Beta",
+    scope: "client",
   },
 ];

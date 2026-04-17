@@ -46,45 +46,32 @@ export default function LoginPage() {
   const [selectedProfile, setSelectedProfile] = useState<ErpProfile | null>(
     null,
   );
-  const [phoneInput, setPhoneInput] = useState("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState<"pick" | "phone" | "code">("pick");
+  const [sessionToken, setSessionToken] = useState("");
+  const [step, setStep] = useState<"pick" | "code">("pick");
   const [loadingStage, setLoadingStage] = useState<"request" | "verify" | null>(
     null,
   );
   const [error, setError] = useState("");
-  const [smsSent, setSmsSent] = useState(false);
 
-  const pickProfile = (profile: ErpProfile) => {
+  const pickProfile = async (profile: ErpProfile) => {
     log.authProfileSelected({
       id: profile.id,
       name: profile.name,
       role: profile.role,
     });
     setSelectedProfile(profile);
-    setPhoneInput("");
     setCode("");
     setError("");
-    setSmsSent(false);
-    setStep("phone");
-  };
-
-  const handleRequestCode = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!selectedProfile || !phoneInput) return;
     setLoadingStage("request");
-    setError("");
 
-    log.authRequestingOtp(phoneInput);
+    log.authRequestingOtp("demo-phone");
 
     try {
       const res = await fetch("/api/auth/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          profileId: selectedProfile.id,
-          phone: phoneInput,
-        }),
+        body: JSON.stringify({ profileId: profile.id }),
       });
       const data = await res.json();
 
@@ -92,7 +79,7 @@ export default function LoginPage() {
 
       if (!res.ok) throw new Error(data.error || "Nepodařilo se odeslat kód.");
 
-      setSmsSent(true);
+      setSessionToken(data.sessionToken ?? "");
       setStep("code");
     } catch (err) {
       const msg =
@@ -106,7 +93,7 @@ export default function LoginPage() {
 
   const handleVerifyCode = async (event: FormEvent) => {
     event.preventDefault();
-    if (!code || !phoneInput) return;
+    if (!code) return;
     setLoadingStage("verify");
     setError("");
 
@@ -116,7 +103,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phoneInput, code }),
+        body: JSON.stringify({ sessionToken, code }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Ověření selhalo.");
@@ -340,106 +327,34 @@ export default function LoginPage() {
                               : "firem"}
                         </span>
                       </div>
+
+                      {isActive && loadingStage === "request" && (
+                        <div
+                          className="mt-3"
+                          style={{
+                            fontFamily: "SF Mono, Monaco, Consolas, monospace",
+                            fontSize: "0.6rem",
+                            letterSpacing: "0.14em",
+                            color: "#00E5FF",
+                          }}
+                        >
+                          ODESÍLÁM SMS...
+                        </div>
+                      )}
                     </button>
                   );
                 })}
               </div>
+
+              {error && step === "pick" && (
+                <div className="hud-inline-alert mt-4">
+                  <AlertTriangle size={16} />
+                  <span>{error}</span>
+                </div>
+              )}
             </div>
 
-            {/* Auth form — step-based */}
-            {step === "phone" && selectedProfile && (
-              <div className="max-w-lg">
-                <form className="hud-panel p-6" onSubmit={handleRequestCode}>
-                  <div className="mb-5 flex items-center gap-3">
-                    <div
-                      className="flex h-10 w-10 items-center justify-center"
-                      style={{
-                        border: "1px solid rgba(0,229,255,0.22)",
-                        background: "rgba(0,229,255,0.06)",
-                      }}
-                    >
-                      <Phone size={18} color="#00E5FF" />
-                    </div>
-                    <div>
-                      <div style={labelStyle}>STEP 01 // SMS OVĚŘENÍ</div>
-                      <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
-                        Zadejte váš telefon pro zaslání kódu
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mb-4 rounded-sm border border-cyan-500/10 bg-cyan-500/5 p-3">
-                    <div style={labelStyle}>Vybraný profil</div>
-                    <div
-                      style={{
-                        color: "#FFFFFF",
-                        fontSize: "0.95rem",
-                        fontWeight: 600,
-                        marginTop: 4,
-                      }}
-                    >
-                      {selectedProfile.name} — {selectedProfile.title}
-                    </div>
-                  </div>
-
-                  <label className="mb-4 block">
-                    <span style={labelStyle}>Váš telefonní číslo</span>
-                    <input
-                      className="hud-input"
-                      value={phoneInput}
-                      onChange={(e) => setPhoneInput(e.target.value)}
-                      placeholder="+420..."
-                      disabled={!selectedProfile}
-                    />
-                  </label>
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      className="hud-button"
-                      type="submit"
-                      disabled={!phoneInput || loadingStage === "request"}
-                    >
-                      {loadingStage === "request"
-                        ? "Odesílám SMS..."
-                        : "Odeslat ověřovací kód"}
-                      <ArrowRight size={15} />
-                    </button>
-                    <button
-                      type="button"
-                      className="hud-button-secondary"
-                      onClick={() => {
-                        setStep("pick");
-                        setSelectedProfile(null);
-                        setError("");
-                      }}
-                    >
-                      Zpět
-                    </button>
-                  </div>
-
-                  <div
-                    className="mt-4"
-                    style={{
-                      color: "#7A8A9E",
-                      fontSize: "0.78rem",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    Na zadané číslo přijde SMS s 6místným ověřovacím kódem z
-                    čísla +1 (276) 800-1167.
-                  </div>
-
-                  {error && (
-                    <div className="hud-inline-alert mt-5">
-                      <AlertTriangle size={16} />
-                      <span>{error}</span>
-                    </div>
-                  )}
-                </form>
-              </div>
-            )}
-
-            {/* Step 2: Enter OTP code */}
+            {/* Enter OTP code */}
             {step === "code" && selectedProfile && (
               <div className="max-w-lg">
                 <form className="hud-panel p-6" onSubmit={handleVerifyCode}>
@@ -454,7 +369,7 @@ export default function LoginPage() {
                       <Lock size={18} color="#00E5A0" />
                     </div>
                     <div>
-                      <div style={labelStyle}>STEP 02 // OVĚŘENÍ</div>
+                      <div style={labelStyle}>SMS OVĚŘENÍ</div>
                       <div style={{ color: "#FFFFFF", fontSize: "0.92rem" }}>
                         Zadejte kód z SMS
                       </div>
@@ -469,7 +384,7 @@ export default function LoginPage() {
                         fontWeight: 500,
                       }}
                     >
-                      ✓ SMS odeslána na {phoneInput}
+                      ✓ SMS odeslána
                     </div>
                     <div
                       style={{
@@ -501,8 +416,6 @@ export default function LoginPage() {
                     />
                   </label>
 
-                  {/* Kód se NIKDY nezobrazuje — přijde POUZE přes SMS */}
-
                   <div className="flex flex-wrap items-center gap-3">
                     <button
                       className="hud-button"
@@ -518,7 +431,8 @@ export default function LoginPage() {
                       type="button"
                       className="hud-button-secondary"
                       onClick={() => {
-                        setStep("phone");
+                        setStep("pick");
+                        setSelectedProfile(null);
                         setCode("");
                         setError("");
                       }}

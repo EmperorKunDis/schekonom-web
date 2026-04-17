@@ -64,6 +64,7 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-02", "14-03", "6-01", "10-06"],
     businessImpact: "Vysoký — detekce fraud a strategické využití vazeb",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "14-02",
@@ -129,6 +130,7 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-01", "14-03", "14-06", "10-01"],
     businessImpact: "Vysoký — identifikace systémového rizika v portfoliu",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "14-03",
@@ -194,6 +196,7 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-01", "14-04", "23-27", "3-01"],
     businessImpact: "Vysoký — detekce švarcsystému a compliance rizik",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "14-04",
@@ -259,6 +262,7 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-01", "14-02", "1-04", "19-02"],
     businessImpact: "Vysoký — ochrana klientů a strategický vhled",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "14-05",
@@ -324,6 +328,7 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-01", "23-48", "11-07", "11-09"],
     businessImpact: "Kritický — bus factor = operační riziko",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "14-06",
@@ -390,5 +395,6 @@ export const section14Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["14-01", "14-02", "10-01", "9-01"],
     businessImpact: "Vysoký — referral = nejlevnější akvizice s nejvyšší CLV",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];

@@ -4,22 +4,19 @@ import { erpProfiles } from "@/lib/erp/data";
 import { log } from "@/lib/logger";
 
 export async function POST(req: NextRequest) {
-  const { phone, code } = await req.json();
+  const { sessionToken, code } = await req.json();
 
   log.otpVerifyRequest({
-    phone: phone || "MISSING",
+    phone: sessionToken ? "(token)" : "MISSING",
     codeLength: code?.length || 0,
   });
 
-  if (!phone || !code) {
-    log.otpVerifyFailed("Missing phone or code");
-    return NextResponse.json(
-      { error: "Zadejte telefon a kód." },
-      { status: 400 },
-    );
+  if (!sessionToken || !code) {
+    log.otpVerifyFailed("Missing sessionToken or code");
+    return NextResponse.json({ error: "Zadejte kód." }, { status: 400 });
   }
 
-  const result = verifyOtp(phone, code);
+  const result = verifyOtp(sessionToken, code);
   log.otpVerifyFound(!!result.valid, false);
 
   if (!result.valid || !result.profileId) {

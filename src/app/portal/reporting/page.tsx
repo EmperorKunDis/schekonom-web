@@ -1719,17 +1719,34 @@ const section23Groups: { label: string; startIdx: number; endIdx: number }[] = [
   { label: "Strategické signály", startIdx: 48, endIdx: 53 },
 ];
 
+// Internal sections (SCH-EKONOM's own operations, not client analyses)
+const INTERNAL_SECTION_IDS = new Set([11]);
+// Section 23 "Meta o SCH-EKONOM" sub-group is internal
+const INTERNAL_S23_GROUP = "Meta o SCH-EKONOM";
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
+type CategoryFilter = "all" | "client" | "internal";
+
 export default function ReportingPage() {
   const { profile } = useAuth();
   const [expanded, setExpanded] = useState<Set<number>>(new Set());
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
 
   if (!profile) return null;
 
   const stats = computeStats();
+
+  const filteredSections =
+    activeCategory === "all"
+      ? sections
+      : sections.filter((s) =>
+          activeCategory === "internal"
+            ? INTERNAL_SECTION_IDS.has(s.id) || s.special
+            : !INTERNAL_SECTION_IDS.has(s.id),
+        );
 
   const toggle = (id: number) => {
     setExpanded((prev) => {
@@ -1741,14 +1758,16 @@ export default function ReportingPage() {
   };
 
   const expandAll = () => {
-    setExpanded(new Set(sections.map((s) => s.id)));
+    setExpanded(new Set(filteredSections.map((s) => s.id)));
   };
 
   const collapseAll = () => {
     setExpanded(new Set());
   };
 
-  const allExpanded = expanded.size === sections.length;
+  const allExpanded =
+    filteredSections.length > 0 &&
+    filteredSections.every((s) => expanded.has(s.id));
 
   return (
     <div className="space-y-8">
@@ -1842,6 +1861,88 @@ export default function ReportingPage() {
       </div>
 
       {/* ----------------------------------------------------------------- */}
+      {/* Category tabs                                                     */}
+      {/* ----------------------------------------------------------------- */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {(
+          [
+            { key: "all", label: "Vše", count: sections.length },
+            {
+              key: "client",
+              label: "Analýzy klientů",
+              count: sections.filter((s) => !INTERNAL_SECTION_IDS.has(s.id))
+                .length,
+            },
+            {
+              key: "internal",
+              label: "Interní SCH-EKONOM",
+              count: sections.filter(
+                (s) => INTERNAL_SECTION_IDS.has(s.id) || s.special,
+              ).length,
+            },
+          ] as { key: CategoryFilter; label: string; count: number }[]
+        ).map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveCategory(tab.key)}
+            style={{
+              fontFamily: "SF Mono, Monaco, Consolas, monospace",
+              fontSize: "0.62rem",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              padding: "6px 14px",
+              border:
+                activeCategory === tab.key
+                  ? tab.key === "internal"
+                    ? "1px solid rgba(212,175,55,0.6)"
+                    : "1px solid rgba(0,229,255,0.6)"
+                  : "1px solid rgba(255,255,255,0.1)",
+              background:
+                activeCategory === tab.key
+                  ? tab.key === "internal"
+                    ? "rgba(212,175,55,0.12)"
+                    : "rgba(0,229,255,0.08)"
+                  : "transparent",
+              color:
+                activeCategory === tab.key
+                  ? tab.key === "internal"
+                    ? "#D4AF37"
+                    : "#00E5FF"
+                  : "#7A8A9E",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "all 0.15s",
+            }}
+          >
+            {tab.label}
+            <span
+              style={{
+                background:
+                  activeCategory === tab.key
+                    ? tab.key === "internal"
+                      ? "rgba(212,175,55,0.2)"
+                      : "rgba(0,229,255,0.15)"
+                    : "rgba(255,255,255,0.06)",
+                borderRadius: 2,
+                padding: "1px 5px",
+                fontSize: "0.55rem",
+                color:
+                  activeCategory === tab.key
+                    ? tab.key === "internal"
+                      ? "#D4AF37"
+                      : "#00E5FF"
+                    : "#58758C",
+              }}
+            >
+              {tab.count}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* ----------------------------------------------------------------- */}
       {/* Expand / Collapse all                                             */}
       {/* ----------------------------------------------------------------- */}
       <div className="flex items-center justify-between">
@@ -1854,7 +1955,7 @@ export default function ReportingPage() {
             color: "rgba(0,229,255,0.72)",
           }}
         >
-          {expanded.size} / {sections.length} rozbaleno
+          {expanded.size} / {filteredSections.length} rozbaleno
         </div>
         <button
           onClick={allExpanded ? collapseAll : expandAll}
@@ -1870,10 +1971,11 @@ export default function ReportingPage() {
       {/* Accordion sections                                                */}
       {/* ----------------------------------------------------------------- */}
       <div className="space-y-3">
-        {sections.map((section) => {
+        {filteredSections.map((section) => {
           const isOpen = expanded.has(section.id);
           const Icon = section.icon;
           const isSpecial = section.special;
+          const isInternalSection = INTERNAL_SECTION_IDS.has(section.id);
 
           return (
             <div
@@ -1946,6 +2048,26 @@ export default function ReportingPage() {
                   {section.analyses.length} analýz
                 </span>
 
+                <span
+                  className="hud-chip flex-shrink-0 hidden sm:inline-flex"
+                  data-tone={isInternalSection ? "gold" : "slate"}
+                  style={{
+                    borderColor: isInternalSection
+                      ? "rgba(212,175,55,0.4)"
+                      : "rgba(0,229,255,0.15)",
+                    color: isInternalSection ? "#D4AF37" : "#7A8A9E",
+                    background: isInternalSection
+                      ? "rgba(212,175,55,0.06)"
+                      : "rgba(0,229,255,0.04)",
+                  }}
+                >
+                  {isInternalSection
+                    ? "INTERNÍ"
+                    : isSpecial
+                      ? "KLIENTI+INTERNÍ"
+                      : "KLIENTI"}
+                </span>
+
                 {isOpen ? (
                   <ChevronDown
                     size={16}
@@ -1970,38 +2092,64 @@ export default function ReportingPage() {
                   {/* For section 23 (special), render sub-groups */}
                   {isSpecial ? (
                     <div className="space-y-6 pt-4">
-                      {section23Groups.map((group) => (
-                        <div key={group.label}>
-                          <div
-                            style={{
-                              fontFamily:
-                                "SF Mono, Monaco, Consolas, monospace",
-                              fontSize: "0.6rem",
-                              letterSpacing: "0.18em",
-                              textTransform: "uppercase",
-                              color: "rgba(212,175,55,0.7)",
-                              marginBottom: 12,
-                              paddingBottom: 6,
-                              borderBottom: "1px solid rgba(212,175,55,0.12)",
-                            }}
-                          >
-                            {group.label}
+                      {section23Groups.map((group) => {
+                        const isMeta = group.label === INTERNAL_S23_GROUP;
+                        return (
+                          <div key={group.label}>
+                            <div
+                              style={{
+                                fontFamily:
+                                  "SF Mono, Monaco, Consolas, monospace",
+                                fontSize: "0.6rem",
+                                letterSpacing: "0.18em",
+                                textTransform: "uppercase",
+                                color: isMeta
+                                  ? "rgba(212,175,55,0.9)"
+                                  : "rgba(212,175,55,0.7)",
+                                marginBottom: 12,
+                                paddingBottom: 6,
+                                borderBottom: isMeta
+                                  ? "1px solid rgba(212,175,55,0.3)"
+                                  : "1px solid rgba(212,175,55,0.12)",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                              }}
+                            >
+                              {group.label}
+                              {isMeta && (
+                                <span
+                                  style={{
+                                    fontSize: "0.52rem",
+                                    letterSpacing: "0.14em",
+                                    background: "rgba(212,175,55,0.15)",
+                                    border: "1px solid rgba(212,175,55,0.4)",
+                                    color: "#D4AF37",
+                                    padding: "1px 6px",
+                                    borderRadius: 2,
+                                  }}
+                                >
+                                  INTERNÍ SCH-EKONOM
+                                </span>
+                              )}
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                              {section.analyses
+                                .slice(group.startIdx, group.endIdx + 1)
+                                .map((analysis, idx) => (
+                                  <AnalysisCard
+                                    key={`${group.label}-${idx}`}
+                                    analysis={analysis}
+                                    isSpecial
+                                    isInternal={isMeta}
+                                    sectionId={section.id}
+                                    index={group.startIdx + idx}
+                                  />
+                                ))}
+                            </div>
                           </div>
-                          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                            {section.analyses
-                              .slice(group.startIdx, group.endIdx + 1)
-                              .map((analysis, idx) => (
-                                <AnalysisCard
-                                  key={`${group.label}-${idx}`}
-                                  analysis={analysis}
-                                  isSpecial
-                                  sectionId={section.id}
-                                  index={group.startIdx + idx}
-                                />
-                              ))}
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="grid gap-3 pt-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -2010,6 +2158,7 @@ export default function ReportingPage() {
                           key={idx}
                           analysis={analysis}
                           isSpecial={false}
+                          isInternal={isInternalSection}
                           sectionId={section.id}
                           index={idx}
                         />
@@ -2206,11 +2355,13 @@ export default function ReportingPage() {
 function AnalysisCard({
   analysis,
   isSpecial,
+  isInternal = false,
   sectionId,
   index,
 }: {
   analysis: Analysis;
   isSpecial: boolean;
+  isInternal?: boolean;
   sectionId: number;
   index: number;
 }) {
@@ -2232,18 +2383,39 @@ function AnalysisCard({
           gap: 10,
         }}
       >
-        {/* Card title + source */}
+        {/* Card title + source + category tag */}
         <div>
-          <div
-            style={{
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontSize: "0.85rem",
-              lineHeight: 1.4,
-              marginBottom: 3,
-            }}
-          >
-            {analysis.name}
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <div
+              style={{
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontSize: "0.85rem",
+                lineHeight: 1.4,
+              }}
+            >
+              {analysis.name}
+            </div>
+            <span
+              style={{
+                fontFamily: "SF Mono, Monaco, Consolas, monospace",
+                fontSize: "0.5rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                padding: "2px 5px",
+                borderRadius: 2,
+                flexShrink: 0,
+                background: isInternal
+                  ? "rgba(212,175,55,0.1)"
+                  : "rgba(0,229,255,0.06)",
+                border: isInternal
+                  ? "1px solid rgba(212,175,55,0.3)"
+                  : "1px solid rgba(0,229,255,0.15)",
+                color: isInternal ? "#D4AF37" : "rgba(0,229,255,0.6)",
+              }}
+            >
+              {isInternal ? "INTERNÍ" : "KLIENT"}
+            </span>
           </div>
           <div
             style={{

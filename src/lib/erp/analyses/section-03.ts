@@ -66,6 +66,7 @@ export const section03Analyses: AnalysisDetail[] = [
     businessImpact:
       "Vysoký — personální náklady jsou typicky největší položkou",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-02",
@@ -127,6 +128,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-05", "3-07", "3-08"],
     businessImpact: "Kritický — zákonná povinnost + důvěra zaměstnanců",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-03",
@@ -188,6 +190,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-03", "10-09"],
     businessImpact: "Vysoký — zákonná povinnost + ručení",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-04",
@@ -249,6 +252,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-02", "3-05"],
     businessImpact: "Vysoký — zákonná povinnost + rychlost",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-05",
@@ -305,6 +309,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-02", "3-04"],
     businessImpact: "Vysoký — zákonná povinnost + sankce",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-06",
@@ -366,6 +371,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-07", "11-06"],
     businessImpact: "Vysoký — retention top performerů",
     implementationStatus: "Pilot",
+    scope: "client",
   },
   {
     id: "3-07",
@@ -427,6 +433,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-02", "3-06", "11-06"],
     businessImpact: "Kritický — compliance + zdraví zaměstnanců",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-08",
@@ -483,6 +490,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-02", "3-06"],
     businessImpact: "Vysoký — riziko žalob + reputace",
     implementationStatus: "Pilot",
+    scope: "client",
   },
   {
     id: "3-09",
@@ -544,6 +552,7 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["10-10", "3-02"],
     businessImpact: "Kritický — GDPR compliance",
     implementationStatus: "Produkce",
+    scope: "client",
   },
   {
     id: "3-10",
@@ -605,5 +614,6 @@ export const section03Analyses: AnalysisDetail[] = [
     relatedAnalyses: ["3-02", "1-08"],
     businessImpact: "Střední — spokojenost zaměstnanců",
     implementationStatus: "Produkce",
+    scope: "client",
   },
 ];
