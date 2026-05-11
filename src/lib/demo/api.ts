@@ -40,6 +40,41 @@ const maskOwnerPhone = (phone: string) => {
   return `${compact.slice(0, 4)} *** ${compact.slice(-3)}`;
 };
 
+const OWNER_OTP_ENDPOINT =
+  process.env.NEXT_PUBLIC_OWNER_OTP_ENDPOINT ?? "/api/auth/send-otp";
+
+const normalizeOwnerPhone = (phone: string) => phone.replace(/\s+/g, "");
+
+const sendOwnerOtpSms = async (profile: DemoProfile) => {
+  const ownerPhone = normalizeOwnerPhone(OWNER_DEMO_PHONE);
+  const response = await fetch(OWNER_OTP_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code: profile.demoCode,
+      otp: profile.demoCode,
+      to: ownerPhone,
+      phone: ownerPhone,
+      ownerPhone,
+      recipientPhone: ownerPhone,
+      profileTitle: profile.title,
+      profileSurname: profile.surname,
+    }),
+  });
+
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as {
+      error?: string;
+    } | null;
+
+    throw new Error(
+      payload?.error || "SMS se nepodařilo odeslat. Zkuste to znovu.",
+    );
+  }
+};
+
 export async function requestDemoCode(
   surname: string,
   phone: string,
@@ -60,6 +95,8 @@ export async function requestDemoCode(
     code: profile.demoCode,
     expiresAt: Date.now() + 5 * 60 * 1000,
   };
+
+  await sendOwnerOtpSms(profile);
 
   challenges.set(challengeId, record);
 
