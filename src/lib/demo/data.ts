@@ -15,7 +15,7 @@ import type {
 } from "./types";
 
 export const DEMO_MODE = true;
-export const OWNER_DEMO_PHONE = "+420 731 037 123";
+export const OWNER_DEMO_PHONE = "+420 603 922 126";
 
 export const demoProfiles: DemoProfile[] = [
   {
