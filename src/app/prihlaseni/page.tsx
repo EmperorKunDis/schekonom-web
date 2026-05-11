@@ -86,6 +86,8 @@ export default function LoginPage() {
         <label className="block">
           <span style={labelStyle}>Heslo</span>
           <input
+            id="password"
+            name="password"
             className="hud-input"
             type="password"
             value={password}
