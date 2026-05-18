@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, FileText, Calculator, Wallet, Globe } from "lucide-react";
+import { assetPath } from "@/lib/paths";
 
 const stats = [
   { value: "30+", label: "Let praxe" },
@@ -53,7 +54,7 @@ export default function HeroSection() {
             willChange: "transform",
           }}
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          <source src={assetPath("/video/hero.mp4")} type="video/mp4" />
         </video>
       </div>
 

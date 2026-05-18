@@ -18,6 +18,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { assetPath } from "@/lib/paths";
 
 const services = [
   {
@@ -125,7 +126,9 @@ export default function DanovePoradenstviPage() {
             <div className="relative">
               <div className="relative glass-panel p-2">
                 <Image
-                  src="/images/editorial/12027a_370f322571a947f9b32170d3cab54e4e_mv2.jpg"
+                  src={assetPath(
+                    "/images/editorial/12027a_370f322571a947f9b32170d3cab54e4e_mv2.jpg",
+                  )}
                   alt="Danove poradenstvi — SCH-EKONOM"
                   width={640}
                   height={420}

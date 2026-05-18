@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import { useState } from "react";
+import { assetPath } from "@/lib/paths";
 import {
   departments,
   teamMembers,
@@ -248,7 +249,7 @@ function TeamMemberCard({
           style={{ borderColor: `${colors.initialsColor}33` }}
         >
           <Image
-            src={member.photo}
+            src={assetPath(member.photo)}
             alt={member.name}
             width={64}
             height={64}
@@ -465,7 +466,7 @@ export default function ONasPage() {
               />
               <div className="relative glass-panel p-2">
                 <Image
-                  src="/images/cheb/Chebana_dron_2.jpg"
+                  src={assetPath("/images/cheb/Chebana_dron_2.jpg")}
                   alt="Letecky pohled na sidlo SCH-EKONOM v Chebu — budova Chebana"
                   width={640}
                   height={420}
@@ -598,7 +599,7 @@ export default function ONasPage() {
           {/* Team group photo */}
           <div className="relative mb-12 overflow-hidden glass-panel">
             <Image
-              src="/images/team/team-group.jpg"
+              src={assetPath("/images/team/team-group.jpg")}
               alt="Celý tým SCH-EKONOM"
               width={1400}
               height={600}
@@ -705,7 +706,7 @@ export default function ONasPage() {
                 {/* Office image */}
                 <div className="relative h-52 overflow-hidden">
                   <Image
-                    src={office.image}
+                    src={assetPath(office.image)}
                     alt={office.name}
                     width={640}
                     height={320}

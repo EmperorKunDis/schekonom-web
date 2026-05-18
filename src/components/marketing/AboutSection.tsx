@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Heart, Map, UserCheck, MapPin, Building2 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { assetPath } from "@/lib/paths";
 
 const values = [
   {
@@ -92,7 +93,7 @@ export default function AboutSection() {
             />
             <div className="relative glass-panel p-2 overflow-hidden">
               <Image
-                src="/images/cheb/cheb-drone.jpg"
+                src={assetPath("/images/cheb/cheb-drone.jpg")}
                 alt="Chebana - sídlo SCH-EKONOM"
                 width={720}
                 height={480}

@@ -16,6 +16,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { assetPath } from "@/lib/paths";
 
 const services = [
   {
@@ -113,7 +114,9 @@ export default function UcetnictviPage() {
             <div className="relative">
               <div className="relative glass-panel p-2">
                 <Image
-                  src="/images/editorial/12027a_8497d15dcdca4e478a3b7deaee0da57f_mv2.jpg"
+                  src={assetPath(
+                    "/images/editorial/12027a_8497d15dcdca4e478a3b7deaee0da57f_mv2.jpg",
+                  )}
                   alt="Ucetnictvi a outsourcing — SCH-EKONOM"
                   width={640}
                   height={420}

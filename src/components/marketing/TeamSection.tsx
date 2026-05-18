@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
 import { useState } from "react";
 import { Mail, Phone as PhoneIcon, Smartphone, Award } from "lucide-react";
+import { assetPath } from "@/lib/paths";
 import {
   departments,
   teamMembers,
@@ -84,7 +85,7 @@ function MemberCard({
             style={{ borderColor: `${colors.initialsColor}33` }}
           >
             <Image
-              src={member.photo}
+              src={assetPath(member.photo)}
               alt={member.name}
               width={40}
               height={40}

@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
+import { assetPath } from "@/lib/paths";
 
 const services = [
   {
@@ -196,7 +197,7 @@ function ServiceCard({
       {service.image && (
         <div className="relative h-44 overflow-hidden">
           <Image
-            src={service.image}
+            src={assetPath(service.image)}
             alt={service.titleDisplay}
             width={640}
             height={280}

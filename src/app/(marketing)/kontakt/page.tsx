@@ -14,6 +14,7 @@ import {
   FileText,
 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { assetPath } from "@/lib/paths";
 
 const chebOffice = {
   name: "Cheb — hlavní kancelář",
@@ -158,7 +159,7 @@ export default function KontaktPage() {
             <div className="service-card p-0 overflow-hidden group">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src={chebOffice.image}
+                  src={assetPath(chebOffice.image)}
                   alt="Kancelar SCH-EKONOM Cheb — budova Chebana"
                   width={640}
                   height={300}
@@ -226,7 +227,7 @@ export default function KontaktPage() {
             <div className="service-card p-0 overflow-hidden group">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src={plzenOffice.image}
+                  src={assetPath(plzenOffice.image)}
                   alt="Kancelar SCH-EKONOM Plzen — Kolektiv Hub"
                   width={640}
                   height={300}
