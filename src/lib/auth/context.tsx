@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 import type { VerifyCodeResponse } from "../demo/api";
@@ -16,12 +17,36 @@ interface AuthState {
 }
 
 const AuthContext = createContext<AuthState | null>(null);
+const STORAGE_KEY = "schekonom_owner_session";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<VerifyCodeResponse | null>(null);
 
-  const login = useCallback((s: VerifyCodeResponse) => setSession(s), []);
-  const logout = useCallback(() => setSession(null), []);
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+
+      const stored = JSON.parse(raw) as VerifyCodeResponse;
+      if (stored?.user?.role === "owner") {
+        setSession(stored);
+      } else {
+        window.localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  const login = useCallback((s: VerifyCodeResponse) => {
+    setSession(s);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+  }, []);
+
+  const logout = useCallback(() => {
+    setSession(null);
+    window.localStorage.removeItem(STORAGE_KEY);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ session, login, logout }}>

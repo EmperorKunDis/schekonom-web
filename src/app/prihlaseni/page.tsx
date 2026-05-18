@@ -47,7 +47,7 @@ export default function LoginPage() {
       user: profile,
       workspace: buildWorkspaceSnapshot(profile),
     });
-    router.push("/portal");
+    router.push("/portal/prehled");
   };
 
   return (
