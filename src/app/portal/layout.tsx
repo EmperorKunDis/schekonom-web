@@ -231,9 +231,11 @@ function PortalShell({ children }: { children: React.ReactNode }) {
                 <div>
                   <div className="mb-3 flex flex-wrap gap-2">
                     <span className="hud-chip" data-tone="cyan">
-                      {workspace.profile.role === "client"
-                        ? "CLIENT VIEW"
-                        : "EMPLOYEE VIEW"}
+                      {workspace.profile.role === "owner"
+                        ? "OWNER VIEW"
+                        : workspace.profile.role === "client"
+                          ? "CLIENT VIEW"
+                          : "EMPLOYEE VIEW"}
                     </span>
                   </div>
                   <h1

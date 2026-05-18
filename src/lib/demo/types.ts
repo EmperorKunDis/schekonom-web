@@ -1,4 +1,4 @@
-export type DemoRole = "client" | "german-tax" | "payroll";
+export type DemoRole = "owner" | "client" | "german-tax" | "payroll";
 
 export type DemoNavKey =
   | "overview"

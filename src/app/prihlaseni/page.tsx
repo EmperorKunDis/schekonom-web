@@ -35,7 +35,13 @@ export default function LoginPage() {
     }
 
     setIsSubmitting(true);
-    const profile = demoProfiles[0];
+    const profile = demoProfiles.find((item) => item.role === "owner");
+    if (!profile) {
+      setError("Owner profil nebyl nalezen.");
+      setIsSubmitting(false);
+      return;
+    }
+
     login({
       token: `demo_${profile.id}_${Date.now()}`,
       user: profile,

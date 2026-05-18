@@ -19,6 +19,26 @@ export const OWNER_DEMO_PHONE = "+420 603 922 126";
 
 export const demoProfiles: DemoProfile[] = [
   {
+    id: "profile_owner",
+    surname: "majitel",
+    phone: OWNER_DEMO_PHONE,
+    role: "owner",
+    title: "Majitel účetní firmy",
+    summary:
+      "Řídicí dashboard celé účetní kanceláře: klienti, rizika, termíny, úkoly a automatizace.",
+    domain: "SCH-EKONOM Control Center",
+    visibleClientIds: [
+      "client_montservis",
+      "client_bauteam",
+      "client_pendler",
+      "client_elektro",
+      "client_restaurace",
+      "client_kovo",
+      "client_logitrans",
+    ],
+    demoCode: "731037",
+  },
+  {
     id: "profile_svanda",
     surname: "svanda",
     phone: "+491759096965",
@@ -67,6 +87,17 @@ export const demoProfiles: DemoProfile[] = [
 ];
 
 export const navByRole: Record<DemoRole, NavItem[]> = {
+  owner: [
+    { key: "overview", label: "Přehled firmy" },
+    { key: "clients", label: "Klienti" },
+    { key: "tasks", label: "Fronta úkolů" },
+    { key: "documents", label: "Dokumenty" },
+    { key: "automation", label: "Agentní automatizace" },
+    { key: "risks", label: "Rizika" },
+    { key: "deadlines", label: "Termíny" },
+    { key: "recommendations", label: "Doporučení AI" },
+    { key: "security", label: "Schválení" },
+  ],
   client: [
     { key: "overview", label: "Přehled" },
     { key: "documents", label: "Dokumenty" },
@@ -1292,6 +1323,35 @@ export function findProfileByCredentials(surname: string, phone: string) {
 }
 
 function buildKpis(profile: DemoProfile): DemoKpi[] {
+  if (profile.role === "owner") {
+    return [
+      {
+        label: "Aktivní klienti",
+        value: "7",
+        sub: "Napříč CZ účetnictvím, DE daněmi a mzdami",
+        tone: "cyan",
+      },
+      {
+        label: "Rizika k řízení",
+        value: "6",
+        sub: "2 high, 4 medium",
+        tone: "red",
+      },
+      {
+        label: "Úkoly týmu",
+        value: "12",
+        sub: "Schneider, Poupova, Svanda",
+        tone: "gold",
+      },
+      {
+        label: "Automatizace",
+        value: "88 %",
+        sub: "Párování, validace, reporting",
+        tone: "green",
+      },
+    ];
+  }
+
   if (profile.role === "client") {
     return [
       {
@@ -1379,6 +1439,14 @@ function buildKpis(profile: DemoProfile): DemoKpi[] {
 }
 
 function buildHeadline(profile: DemoProfile) {
+  if (profile.role === "owner") {
+    return {
+      headline: "Majitelský dashboard účetní firmy",
+      helperText:
+        "Jeden řídicí pohled na klienty, rizika, termíny, týmové úkoly a automatizace. Majitel vidí priority celé kanceláře, ne jen jednoho klienta.",
+    };
+  }
+
   if (profile.role === "client") {
     return {
       headline: "Klientský cockpit bez účetního chaosu",
@@ -1412,6 +1480,7 @@ export function buildWorkspaceSnapshot(
 
   const filteredTasks = tasks.filter((task) => {
     if (!visibleClientSet.has(task.clientId)) return false;
+    if (profile.role === "owner") return true;
     return profile.role === "client"
       ? task.visibleToClient
       : task.ownerId === profile.id || task.clientId === "client_montservis";
@@ -1424,6 +1493,7 @@ export function buildWorkspaceSnapshot(
 
   const filteredFeed = feed.filter((item) => {
     if (!visibleClientSet.has(item.clientId)) return false;
+    if (profile.role === "owner") return true;
     if (profile.role === "client") {
       return item.audience === "all" || item.audience === "client";
     }
