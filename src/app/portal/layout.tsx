@@ -23,6 +23,7 @@ const navKeyToRoute: Record<DemoNavKey, string> = {
   tasks: "/portal/ukoly",
   documents: "/portal/dokumenty",
   automation: "/portal/automatizace",
+  reporting: "/portal/reporting",
   risks: "/portal/rizika",
   deadlines: "/portal/terminy",
   recommendations: "/portal/doporuceni",

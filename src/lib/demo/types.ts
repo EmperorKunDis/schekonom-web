@@ -6,6 +6,7 @@ export type DemoNavKey =
   | "tasks"
   | "documents"
   | "automation"
+  | "reporting"
   | "risks"
   | "deadlines"
   | "recommendations"

@@ -93,6 +93,7 @@ export const navByRole: Record<DemoRole, NavItem[]> = {
     { key: "tasks", label: "Fronta úkolů" },
     { key: "documents", label: "Dokumenty" },
     { key: "automation", label: "Agentní automatizace" },
+    { key: "reporting", label: "Analytické centrum" },
     { key: "risks", label: "Rizika" },
     { key: "deadlines", label: "Termíny" },
     { key: "recommendations", label: "Doporučení AI" },
