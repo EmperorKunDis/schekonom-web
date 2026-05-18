@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Activity, Building2, ChevronRight, LogOut, User } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 import KpiCard from "@/components/portal/KpiCard";
-import { AuthProvider, useAuth } from "@/lib/auth/context";
+import { useAuth } from "@/lib/auth/context";
 import { PortalGuard } from "@/lib/auth/guard";
 import type { DemoNavKey } from "@/lib/demo/types";
 
@@ -293,10 +293,8 @@ export default function PortalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <PortalGuard>
-        <PortalShell>{children}</PortalShell>
-      </PortalGuard>
-    </AuthProvider>
+    <PortalGuard>
+      <PortalShell>{children}</PortalShell>
+    </PortalGuard>
   );
 }
